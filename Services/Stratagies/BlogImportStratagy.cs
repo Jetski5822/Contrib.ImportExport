@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using Contrib.ImportExport.InternalSchema;
 using Contrib.ImportExport.Models;
+using Orchard;
 using Orchard.Blogs.Models;
 using Orchard.Blogs.Services;
 using Orchard.ContentManagement;
@@ -14,7 +15,13 @@ using Orchard.Settings;
 using Orchard.Tasks;
 
 namespace Contrib.ImportExport.Services.Stratagies {
-    public class BlogImportStratagy {
+    public interface IBlogImportStratagy : IDependency {
+        bool IsType(object objectToImport);
+        ContentItem Import(ImportSettings importSettings, object objectToImport, IContent parentContent = null);
+        void ImportAdditionalContentItems<T>(ImportSettings importSettings, T objectToImport, IContent parentContent);
+    }
+
+    public class BlogImportStratagy : IBlogImportStratagy {
         private readonly IContentManager _contentManager;
         private readonly IEnumerable<IMultipleImportStratagy> _importStratagies;
         private readonly IBackgroundTask _backgroundTask;

@@ -39,6 +39,9 @@
     <Reference Include="HtmlAgilityPack">
       <HintPath>packages\HtmlAgilityPack.1.4.4\lib\Net40\HtmlAgilityPack.dll</HintPath>
     </Reference>
+    <Reference Include="ICSharpCode.SharpZipLib">
+      <HintPath>..\..\..\..\lib\sharpziplib\ICSharpCode.SharpZipLib.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -88,6 +91,8 @@
     <Compile Include="Providers\Wordpress\WordpressBlogAssembler.cs" />
     <Compile Include="Providers\Wordpress\WordpressNamespaces.cs" />
     <Compile Include="Services\DataCleaner.cs" />
+    <Compile Include="Services\IImportService.cs" />
+    <Compile Include="Services\ImportService.cs" />
     <Compile Include="Services\Stratagies\AuthorsImportStratagy.cs" />
     <Compile Include="Services\Stratagies\BlogImportStratagy.cs" />
     <Compile Include="Services\Stratagies\BlogPostImportStratagy.cs" />
@@ -96,6 +101,7 @@
     <Compile Include="Services\Stratagies\IBlogPostImportStratagy.cs" />
     <Compile Include="Services\Stratagies\IImportStratagy.cs" />
     <Compile Include="Services\Stratagies\IMultipleImportStratagy.cs" />
+    <Compile Include="Services\Stratagies\ScheduledBlogPostCollectionImport.cs" />
     <Compile Include="Services\Stratagies\TagReferencesImportStratagy.cs" />
     <Compile Include="Services\TaxonomyImportService.cs" />
     <Compile Include="Services\UserServices.cs" />
