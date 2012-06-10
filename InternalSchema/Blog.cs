@@ -112,39 +112,5 @@ namespace Contrib.ExternalImportExport.InternalSchema {
 			Categories = new Categories();
 			Posts = new Posts();
 		}
-		
-		/// <summary>
-		/// Create a blog representation, filling the common properties.
-		/// </summary>
-		/// <param name="rssChannel">
-		/// The WXR RSS channel
-		/// </param>
-		public Blog(XElement rssChannel) {
-			
-			DateCreated = Util.ParseRSSDate(rssChannel.Element("pubDate").Value);
-			
-			Title = new Title();
-			Title.Value = rssChannel.Element("title").Value;
-			
-			SubTitle = new Title();
-			SubTitle.Value = rssChannel.Element("description").Value;
-			
-			RootURL = rssChannel.Element(Util.wpNamespace + "base_blog_url").Value;
-			
-			Authors = new Authors();
-			Categories = new Categories();
-			Posts = new Posts();
-		}
-		
-		/// <summary>
-		/// The file name to which this blog should be written
-		/// </summary>
-		/// <returns>
-		/// The file name
-		/// </returns>
-		public string FileName() {
-			return Regex.Replace(Title.Value, @"[^\w\.-]", "_").ToLower() + "-"
-				+ String.Format("{0:yyyyMMdd-HHmm}", DateTime.Parse(DateCreated)) + ".xml";
-		}
 	}
 }
