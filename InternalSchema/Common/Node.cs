@@ -1,3 +1,4 @@
+using System;
 using System.Xml.Serialization;
 
 namespace Contrib.ExternalImportExport.InternalSchema.Common {
@@ -22,19 +23,19 @@ namespace Contrib.ExternalImportExport.InternalSchema.Common {
 		/// The date/time this node was created (optional).
 		/// </summary>
 		[XmlAttribute("date-created")]
-		public string DateCreated { get; set; }
+        public DateTime DateCreated { get; set; }
 		
 		/// <summary>
 		/// The date/time this node was last updated (optional). 
 		/// </summary>
-		[XmlAttribute("date-modified")]
-		public string DateModified { get; set; }
-		
-		/// <summary>
+        [XmlAttribute("date-modified")]
+        public DateTime DateModified { get; set; }
+
+	    /// <summary>
 		/// Whether this node is published/approved (optional).
 		/// </summary>
 		[XmlAttribute("approved")]
-		public string Approved { get; set; }
+		public bool Approved { get; set; }
 		
 		/// <summary>
 		/// Create the node (currently does nothing)

@@ -6,9 +6,6 @@ using System.Xml.Linq;
 
 namespace Contrib.ExternalImportExport.Providers.Wordpress {
     class Constants {
-
-        private static AssemblyName assembly = Assembly.GetExecutingAssembly().GetName();
-
         /// <summary>
         /// Parse an RSS format date/time to a C# DateTime.
         /// </summary>

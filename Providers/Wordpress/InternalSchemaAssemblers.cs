@@ -9,8 +9,8 @@ using Contrib.ExternalImportExport.InternalSchema.Post.Additional;
 using Contrib.ExternalImportExport.InternalSchema.Tag;
 
 namespace Contrib.ExternalImportExport.Providers.Wordpress {
-    public static class InternalSchemaAssemblers {
-        public static Category AssembleCategory(WordpressNamespaces namespaces, XElement categoryElement) {
+    internal static class InternalSchemaAssemblers {
+        internal static Category AssembleCategory(WordpressNamespaces namespaces, XElement categoryElement) {
             Category category = new Category();
 
             category.ID = categoryElement.Element(namespaces.WpNamespace + "category_nicename").Value.Trim();
@@ -29,7 +29,7 @@ namespace Contrib.ExternalImportExport.Providers.Wordpress {
             return category;
         }
 
-        public static Tag AssembleTag(WordpressNamespaces namespaces, XElement tagElement) {
+        internal static Tag AssembleTag(WordpressNamespaces namespaces, XElement tagElement) {
             Tag tag = new Tag();
 
             tag.ID = tagElement.Element(namespaces.WpNamespace + "tag_slug").Value;
@@ -41,16 +41,16 @@ namespace Contrib.ExternalImportExport.Providers.Wordpress {
             return tag;
         }
 
-		public static Post AssemblePost(WordpressNamespaces namespaces, XElement postElement) {
+        internal static Post AssemblePost(WordpressNamespaces namespaces, XElement postElement) {
 			Post post = new Post();
 
 			// Node (parent) properties.
             post.ID = postElement.Element(namespaces.WpNamespace + "post_id").Value;
             post.Title = postElement.Element("title").Value;
-            post.DateCreated = Constants.ParseRssDate(postElement.Element("pubDate").Value);
-            post.DateModified = Constants.ParseRssDate(postElement.Element("pubDate").Value);
-            post.PostURL = (new Uri(postElement.Element("link").Value).AbsolutePath).TrimStart('/'); // NGM
-            post.Approved = "true";
+            post.DateCreated = DateTime.Parse(Constants.ParseRssDate(postElement.Element("pubDate").Value));
+            post.DateModified = DateTime.Parse(Constants.ParseRssDate(postElement.Element("pubDate").Value));
+            post.PostUrl = (new Uri(postElement.Element("link").Value).AbsolutePath).TrimStart('/'); // NGM
+            post.Approved = true;
 
 			// Object properties.
             post.Content = new Content();
@@ -140,7 +140,7 @@ namespace Contrib.ExternalImportExport.Providers.Wordpress {
 		    return post;
 		}
 
-        public static CategoryReference AssembleCategoryReference(XElement referenceElement) {
+        internal static CategoryReference AssembleCategoryReference(XElement referenceElement) {
             CategoryReference reference = new CategoryReference();
 
             reference.ID = referenceElement.Attribute("nicename").Value.Trim();
@@ -149,13 +149,13 @@ namespace Contrib.ExternalImportExport.Providers.Wordpress {
             return reference;
         }
 
-        public static Comment AssembleComment(WordpressNamespaces namespaces, XElement commentElement) {
+        internal static Comment AssembleComment(WordpressNamespaces namespaces, XElement commentElement) {
             Comment comment = new Comment();
 
             // Node (parent) properties.
             comment.ID = commentElement.Element(namespaces.WpNamespace + "comment_id").Value;
             comment.Title = comment.ID;
-            comment.DateCreated = DateTime.Parse(commentElement.Element(namespaces.WpNamespace + "comment_date_gmt").Value).ToString("s");
+            comment.DateCreated = DateTime.Parse(commentElement.Element(namespaces.WpNamespace + "comment_date_gmt").Value);
 
             comment.Content = new Content();
             comment.Content.Type = Content.TypeHTML;
@@ -175,17 +175,18 @@ namespace Contrib.ExternalImportExport.Providers.Wordpress {
 
             string approved = commentElement.Element(namespaces.WpNamespace + "comment_approved").Value;
 
-            comment.Approved = approved == "1" ? bool.TrueString : bool.FalseString;
+            comment.Approved = approved == "1";
 
             return comment;
         }
 
-        public static Trackback AssembleTrackback(WordpressNamespaces namespaces, XElement trackbackElement) {
+        internal static Trackback AssembleTrackback(WordpressNamespaces namespaces, XElement trackbackElement) {
             Trackback trackback = new Trackback();
 
             trackback.ID = trackbackElement.Element(namespaces.WpNamespace + "comment_id").Value;
             trackback.Title = ((XCData)trackbackElement.Element(namespaces.WpNamespace + "comment_author").FirstNode).Value;
-            trackback.DateCreated = DateTime.Parse(trackbackElement.Element(namespaces.WpNamespace + "comment_date_gmt").Value).ToString("s");
+            trackback.DateCreated =
+                DateTime.Parse(trackbackElement.Element(namespaces.WpNamespace + "comment_date_gmt").Value);
 
             trackback.URL = trackbackElement.Element(namespaces.WpNamespace + "comment_author_url").Value;
 

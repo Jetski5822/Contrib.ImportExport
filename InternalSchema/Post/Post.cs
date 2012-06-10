@@ -71,7 +71,7 @@ namespace Contrib.ExternalImportExport.InternalSchema.Post {
 		/// The URL of this post
 		/// </summary>
 		[XmlAttribute("post-url")]
-		public string PostURL { get; set; }
+		public string PostUrl { get; set; }
 		
 		/// <summary>
 		/// The type of this post
