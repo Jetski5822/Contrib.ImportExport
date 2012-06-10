@@ -6,7 +6,7 @@
     <ProductVersion>
     </ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>553d7541-c47a-43bf-a01b-e012b85f6646</ProjectGuid>
+    <ProjectGuid>{544F1BB5-CDCD-43D0-A5C3-A5AA04F2621A}</ProjectGuid>
     <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
@@ -34,32 +34,40 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Web.DynamicData" />
-    <Reference Include="System.Web.Entity" />
-    <Reference Include="System.Web.ApplicationServices" />
     <Reference Include="System" />
-    <Reference Include="System.Data" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Mvc, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\lib\aspnetmvc\System.Web.Mvc.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Drawing" />
     <Reference Include="System.Web" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Configuration" />
-    <Reference Include="System.Web.Services" />
-    <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Web.config" />
-    <Content Include="Web.Debug.config">
-      <DependentUpon>Web.config</DependentUpon>
-    </Content>
-    <Content Include="Web.Release.config">
-      <DependentUpon>Web.config</DependentUpon>
-    </Content>
-  </ItemGroup>
-  <ItemGroup>
+    <Compile Include="InternalSchema\Author\Author.cs" />
+    <Compile Include="InternalSchema\Author\Authors.cs" />
+    <Compile Include="InternalSchema\Blog.cs" />
+    <Compile Include="InternalSchema\Category\Categories.cs" />
+    <Compile Include="InternalSchema\Category\Category.cs" />
+    <Compile Include="InternalSchema\Common\Content.cs" />
+    <Compile Include="InternalSchema\Common\Node.cs" />
+    <Compile Include="InternalSchema\Common\Title.cs" />
+    <Compile Include="InternalSchema\ExtendedProperty\ExtendedProperties.cs" />
+    <Compile Include="InternalSchema\ExtendedProperty\ExtendedProperty.cs" />
+    <Compile Include="InternalSchema\Post\Attachment.cs" />
+    <Compile Include="InternalSchema\Post\Attachments.cs" />
+    <Compile Include="InternalSchema\Post\AuthorReference.cs" />
+    <Compile Include="InternalSchema\Post\AuthorReferences.cs" />
+    <Compile Include="InternalSchema\Post\CategoryReference.cs" />
+    <Compile Include="InternalSchema\Post\CategoryReferences.cs" />
+    <Compile Include="InternalSchema\Post\Comment.cs" />
+    <Compile Include="InternalSchema\Post\Comments.cs" />
+    <Compile Include="InternalSchema\Post\Post.cs" />
+    <Compile Include="InternalSchema\Post\Posts.cs" />
+    <Compile Include="InternalSchema\Post\Trackback.cs" />
+    <Compile Include="InternalSchema\Post\Trackbacks.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
@@ -70,7 +78,7 @@
         <WebProjectProperties>
           <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>0</DevelopmentServerPort>
+          <DevelopmentServerPort>55673</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
           <IISUrl>
           </IISUrl>
