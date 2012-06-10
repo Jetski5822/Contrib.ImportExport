@@ -4,6 +4,7 @@ using System.Linq;
 using System.Xml.Linq;
 using System.Xml.Serialization;
 using Contrib.ExternalImportExport.InternalSchema.Common;
+using Contrib.ExternalImportExport.InternalSchema.Post.Additional;
 
 namespace Contrib.ExternalImportExport.InternalSchema.Post {
 	/// <summary>
@@ -35,7 +36,13 @@ namespace Contrib.ExternalImportExport.InternalSchema.Post {
 		/// </summary>
 		[XmlElement("categories")]
 		public CategoryReferences Categories { get; set; }
-		
+
+        /// <summary>
+        /// Tags for this post
+        /// </summary>
+        [XmlElement("tags")]
+        public TagReferences Tags { get; set; }
+
 		/// <summary>
 		/// Comments on this post
 		/// </summary>

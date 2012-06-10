@@ -13,7 +13,13 @@ namespace Contrib.ExternalImportExport.InternalSchema.Post {
 		/// </summary>
 		[XmlAttribute("ref")]
 		public string ID { get; set; }
-		
+
+        /// <summary>
+        /// The title of the category
+        /// </summary>
+        [XmlAttribute("title")]
+        public string Title { get; set; }
+
 		public CategoryReference() { }
 	}
 }

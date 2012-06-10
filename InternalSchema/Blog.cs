@@ -9,6 +9,7 @@ using Contrib.ExternalImportExport.InternalSchema.Category;
 using Contrib.ExternalImportExport.InternalSchema.Common;
 using Contrib.ExternalImportExport.InternalSchema.ExtendedProperty;
 using Contrib.ExternalImportExport.InternalSchema.Post;
+using Contrib.ExternalImportExport.InternalSchema.Tag;
 
 namespace Contrib.ExternalImportExport.InternalSchema {
 	/// <summary>
@@ -58,7 +59,13 @@ namespace Contrib.ExternalImportExport.InternalSchema {
 		/// </summary>
 		[XmlElement("categories")]
 		public Categories Categories { get; set; }
-		
+
+        /// <summary>
+        /// A list of tags for the blog
+        /// </summary>
+        [XmlElement("tags")]
+        public Tags Tags { get; set; }
+
 		/// <summary>
 		/// A list of posts for the blog
 		/// </summary>

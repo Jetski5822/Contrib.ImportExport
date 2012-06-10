@@ -13,7 +13,13 @@ namespace Contrib.ExternalImportExport.InternalSchema.Post {
 		/// </summary>
 		[XmlElement("comment")]
 		public List<Comment> CommentList { get; set; }
-		
+
+        /// <summary>
+        /// Are comments enabled on blog post
+        /// </summary>
+        [XmlElement("comment_status")]
+        public bool Enabled { get; set; }
+
 		public Comments() {
 			CommentList = new List<Comment>();
 		}
