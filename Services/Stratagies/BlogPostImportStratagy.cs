@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Contrib.ExternalImportExport.Helpers;
-using Contrib.ExternalImportExport.InternalSchema.Post;
-using Contrib.ExternalImportExport.Models;
+using Contrib.ImportExport.Helpers;
+using Contrib.ImportExport.InternalSchema.Post;
+using Contrib.ImportExport.Models;
 using Orchard.Autoroute.Models;
 using Orchard.Blogs.Models;
 using Orchard.Blogs.Services;
@@ -13,7 +13,7 @@ using Orchard.ContentManagement.Aspects;
 using Orchard.Core.Common.Models;
 using Orchard.Core.Title.Models;
 
-namespace Contrib.ExternalImportExport.Services.Stratagies {
+namespace Contrib.ImportExport.Services.Stratagies {
     public class BlogPostImportStratagy : IBlogPostImportStratagy {
         private readonly IContentManager _contentManager;
         private readonly IEnumerable<IMultipleImportStratagy> _importStratagies;

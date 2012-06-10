@@ -4,7 +4,7 @@ using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Xml.Linq;
 
-namespace Contrib.ExternalImportExport.Providers.Wordpress {
+namespace Contrib.ImportExport.Providers.Wordpress {
     class Constants {
         /// <summary>
         /// Parse an RSS format date/time to a C# DateTime.

@@ -2,9 +2,9 @@ using System;
 using System.Linq;
 using System.Xml.Linq;
 using System.Xml.Serialization;
-using Contrib.ExternalImportExport.InternalSchema.Common;
+using Contrib.ImportExport.InternalSchema.Common;
 
-namespace Contrib.ExternalImportExport.InternalSchema.Category {
+namespace Contrib.ImportExport.InternalSchema.Category {
 	/// <summary>
 	/// Implementation of "categoryType" from the BlogML XSD.
 	/// </summary>

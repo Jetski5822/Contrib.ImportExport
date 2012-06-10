@@ -1,8 +1,8 @@
-﻿using Contrib.ExternalImportExport.InternalSchema.Author;
-using Contrib.ExternalImportExport.Models;
+﻿using Contrib.ImportExport.InternalSchema.Author;
+using Contrib.ImportExport.Models;
 using Orchard.ContentManagement;
 
-namespace Contrib.ExternalImportExport.Services.Stratagies {
+namespace Contrib.ImportExport.Services.Stratagies {
     public class AuthorsImportStratagy : IMultipleImportStratagy {
         private readonly IUserServices _userService;
 

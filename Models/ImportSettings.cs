@@ -1,4 +1,4 @@
-﻿namespace Contrib.ExternalImportExport.Models {
+﻿namespace Contrib.ImportExport.Models {
     public class ImportSettings {
         public string UrlItemPath { get; set; }
 

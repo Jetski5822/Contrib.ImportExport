@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Xml.Serialization;
 
-namespace Contrib.ExternalImportExport.InternalSchema.Post {
+namespace Contrib.ImportExport.InternalSchema.Post {
 	/// <summary>
 	/// Implementation of the "postsType" from the BlogML XSD.
 	/// </summary>

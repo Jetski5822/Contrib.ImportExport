@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Xml.Serialization;
 
-namespace Contrib.ExternalImportExport.InternalSchema.Tag {
+namespace Contrib.ImportExport.InternalSchema.Tag {
 
 	[XmlRoot("tags")]
 	public class Tags {

@@ -3,7 +3,7 @@ using Orchard;
 using Orchard.Security;
 using Orchard.Users.Models;
 
-namespace Contrib.ExternalImportExport.Services {
+namespace Contrib.ImportExport.Services {
     public interface IUserServices : IDependency {
         IUser GetUser(string userName, bool forceCreate);
         IUser GetUser(string userName, string emailAddress, bool forceCreate);

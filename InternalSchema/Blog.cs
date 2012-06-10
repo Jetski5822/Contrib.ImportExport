@@ -4,14 +4,14 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Xml.Linq;
 using System.Xml.Serialization;
-using Contrib.ExternalImportExport.InternalSchema.Author;
-using Contrib.ExternalImportExport.InternalSchema.Category;
-using Contrib.ExternalImportExport.InternalSchema.Common;
-using Contrib.ExternalImportExport.InternalSchema.ExtendedProperty;
-using Contrib.ExternalImportExport.InternalSchema.Post;
-using Contrib.ExternalImportExport.InternalSchema.Tag;
+using Contrib.ImportExport.InternalSchema.Author;
+using Contrib.ImportExport.InternalSchema.Category;
+using Contrib.ImportExport.InternalSchema.Common;
+using Contrib.ImportExport.InternalSchema.ExtendedProperty;
+using Contrib.ImportExport.InternalSchema.Post;
+using Contrib.ImportExport.InternalSchema.Tag;
 
-namespace Contrib.ExternalImportExport.InternalSchema {
+namespace Contrib.ImportExport.InternalSchema {
 	/// <summary>
 	/// C# representation of a complete BlogML document.
 	/// </summary>
@@ -22,7 +22,7 @@ namespace Contrib.ExternalImportExport.InternalSchema {
 		/// The date/time the export was created
 		/// </summary>
 		[XmlAttribute("date-created")]
-		public string DateCreated { get; set; }
+		public DateTime DateCreated { get; set; }
 		
 		/// <summary>
 		/// The root URL of the blog being exported
@@ -112,7 +112,7 @@ namespace Contrib.ExternalImportExport.InternalSchema {
 		/// Create a new, empty blog representation
 		/// </summary>
 		public Blog() {
-			DateCreated = DateTime.Now.ToString("s");
+			DateCreated = DateTime.Now;
 			Title = new Title();
 			SubTitle = new Title();
 			Authors = new Authors();

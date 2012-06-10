@@ -1,6 +1,6 @@
 using System.Xml.Serialization;
 
-namespace Contrib.ExternalImportExport.InternalSchema.Post {
+namespace Contrib.ImportExport.InternalSchema.Post {
 	/// <summary>
 	/// Implementation of the "authorRefType" from the BlogML XSD.
 	/// </summary>

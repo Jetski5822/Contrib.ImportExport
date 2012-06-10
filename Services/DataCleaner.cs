@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Linq;
 using System.Text.RegularExpressions;
-using Contrib.ExternalImportExport.Models;
+using Contrib.ImportExport.Models;
 using HtmlAgilityPack;
 using Orchard;
 using Orchard.FileSystems.Media;
 using Orchard.Logging;
 
-namespace Contrib.ExternalImportExport.Services {
+namespace Contrib.ImportExport.Services {
     public interface IDataCleaner : IDependency {
         string Clean(string value, ImportSettings importSettings);
     }

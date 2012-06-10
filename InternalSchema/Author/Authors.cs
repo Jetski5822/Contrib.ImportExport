@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Xml.Serialization;
 
-namespace Contrib.ExternalImportExport.InternalSchema.Author {
+namespace Contrib.ImportExport.InternalSchema.Author {
 	/// <summary>
 	/// Implementation of the "authorsType" from the BlogML XSD.
 	/// </summary>

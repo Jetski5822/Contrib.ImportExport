@@ -1,13 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Contrib.ExternalImportExport.Extensions;
-using Contrib.ExternalImportExport.InternalSchema.Post;
-using Contrib.ExternalImportExport.Models;
+using Contrib.ImportExport.Extensions;
+using Contrib.ImportExport.InternalSchema.Post;
+using Contrib.ImportExport.Models;
 using Orchard.Comments.Models;
 using Orchard.Comments.Services;
 using Orchard.ContentManagement;
 
-namespace Contrib.ExternalImportExport.Services.Stratagies {
+namespace Contrib.ImportExport.Services.Stratagies {
     public class CommentsImportStratagy : IMultipleImportStratagy {
         private readonly ICommentService _commentService;
         private readonly IDataCleaner _dataCleaner;

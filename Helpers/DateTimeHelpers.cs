@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Globalization;
 
-namespace Contrib.ExternalImportExport.Helpers {
+namespace Contrib.ImportExport.Helpers {
     public static class DateTimeHelpers {
         public static bool IsEarlierThan(this DateTime dateTime, DateTime? dateTime2) {
             if (!dateTime2.HasValue)

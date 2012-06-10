@@ -7,7 +7,7 @@ using Orchard.Security;
 using Orchard.Settings;
 using Orchard.Core.Title.Models;
 
-namespace Contrib.ExternalImportExport.Services {
+namespace Contrib.ImportExport.Services {
     public interface ITaxonomyImportService : IDependency {
         TaxonomyPart CreateTaxonomy(string taxonomyName);
         TermPart CreateTermFor(TaxonomyPart taxonomy, string termName, string termSlug);

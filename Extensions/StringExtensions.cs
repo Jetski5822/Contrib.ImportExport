@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Contrib.ExternalImportExport.Extensions {
+namespace Contrib.ImportExport.Extensions {
     public static class StringExtensions {
         public static bool IsValidUrl(this string text) {
             Uri temp;

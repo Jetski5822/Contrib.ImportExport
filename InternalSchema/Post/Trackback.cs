@@ -1,9 +1,9 @@
 using System;
 using System.Xml.Linq;
 using System.Xml.Serialization;
-using Contrib.ExternalImportExport.InternalSchema.Common;
+using Contrib.ImportExport.InternalSchema.Common;
 
-namespace Contrib.ExternalImportExport.InternalSchema.Post {
+namespace Contrib.ImportExport.InternalSchema.Post {
 	/// <summary>
 	/// Implementation of the "trackbackType" from the BlogML XSD.
 	/// </summary>
@@ -14,7 +14,7 @@ namespace Contrib.ExternalImportExport.InternalSchema.Post {
 		/// The URL of the trackback
 		/// </summary>
 		[XmlAttribute("url")]
-		public string URL { get; set; }
+		public string Url { get; set; }
 		
 		public Trackback() : base() { }
 	}

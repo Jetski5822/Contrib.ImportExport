@@ -1,6 +1,6 @@
 using System.Xml.Serialization;
 
-namespace Contrib.ExternalImportExport.InternalSchema.ExtendedProperty {
+namespace Contrib.ImportExport.InternalSchema.ExtendedProperty {
 	/// <summary>
 	/// A property for the blog.
 	/// </summary>

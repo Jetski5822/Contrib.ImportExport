@@ -1,7 +1,7 @@
 using System.Xml.Serialization;
-using Contrib.ExternalImportExport.InternalSchema.Common;
+using Contrib.ImportExport.InternalSchema.Common;
 
-namespace Contrib.ExternalImportExport.InternalSchema.Author {
+namespace Contrib.ImportExport.InternalSchema.Author {
 	/// <summary>
 	/// An author of posts within a blog.
 	/// </summary>

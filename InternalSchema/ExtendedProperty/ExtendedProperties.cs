@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Xml.Serialization;
 
-namespace Contrib.ExternalImportExport.InternalSchema.ExtendedProperty {
+namespace Contrib.ImportExport.InternalSchema.ExtendedProperty {
 	/// <summary>
 	/// The extended properties for a blog
 	/// </summary>

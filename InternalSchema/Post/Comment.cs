@@ -1,9 +1,9 @@
 using System;
 using System.Xml.Linq;
 using System.Xml.Serialization;
-using Contrib.ExternalImportExport.InternalSchema.Common;
+using Contrib.ImportExport.InternalSchema.Common;
 
-namespace Contrib.ExternalImportExport.InternalSchema.Post {
+namespace Contrib.ImportExport.InternalSchema.Post {
 	/// <summary>
 	/// Implmentation of the "commentType" from the BlogML XSD.
 	/// </summary>

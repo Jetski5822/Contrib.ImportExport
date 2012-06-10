@@ -3,15 +3,19 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Xml.Linq;
-using Contrib.ExternalImportExport.InternalSchema;
-using Contrib.ExternalImportExport.InternalSchema.Author;
-using Contrib.ExternalImportExport.InternalSchema.Category;
-using Contrib.ExternalImportExport.InternalSchema.Common;
-using Contrib.ExternalImportExport.InternalSchema.Post;
-using Contrib.ExternalImportExport.InternalSchema.Tag;
+using Contrib.ImportExport.InternalSchema;
+using Contrib.ImportExport.InternalSchema.Author;
+using Contrib.ImportExport.InternalSchema.Category;
+using Contrib.ImportExport.InternalSchema.Common;
+using Contrib.ImportExport.InternalSchema.Post;
+using Contrib.ImportExport.InternalSchema.Tag;
 
-namespace Contrib.ExternalImportExport.Providers.Wordpress {
+namespace Contrib.ImportExport.Providers.Wordpress {
     public class WordpressBlogAssembler : IBlogAssembler {
+        public string Name {
+            get { return "Wordpress"; }
+        }
+
         public Blog Assemble(Stream stream) {
             var file = XElement.Load(stream);
 
@@ -38,7 +42,7 @@ namespace Contrib.ExternalImportExport.Providers.Wordpress {
         private Blog CreateTopLevelBlog(WordpressNamespaces namespaces, XElement channel) {
             Blog blog = new Blog();
 
-            blog.DateCreated = Constants.ParseRssDate(channel.Element("pubDate").Value);
+            blog.DateCreated = DateTime.Parse(Constants.ParseRssDate(channel.Element("pubDate").Value));
 			
             blog.Title = new Title();
             blog.Title.Value = channel.Element("title").Value;
@@ -83,7 +87,7 @@ namespace Contrib.ExternalImportExport.Providers.Wordpress {
                     where a.Title == child.ParentCategory
                     select a;
 
-                if (0 < parent.Count()) {
+                if (parent.Any()) {
                     child.ParentCategory = parent.ElementAt(0).ID;
                 }
             }

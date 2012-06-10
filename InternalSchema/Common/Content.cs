@@ -1,7 +1,7 @@
 using System;
 using System.Xml.Serialization;
 
-namespace Contrib.ExternalImportExport.InternalSchema.Common {
+namespace Contrib.ImportExport.InternalSchema.Common {
 	/// <summary>
 	/// Implementation of "contentType" from the BlogML XSD.
 	/// </summary>

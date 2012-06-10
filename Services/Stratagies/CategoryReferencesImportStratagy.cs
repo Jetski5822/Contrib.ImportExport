@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Linq;
-using Contrib.ExternalImportExport.InternalSchema.Post;
-using Contrib.ExternalImportExport.Models;
+using Contrib.ImportExport.InternalSchema.Post;
+using Contrib.ImportExport.Models;
 using Contrib.Taxonomies.Models;
 using Contrib.Taxonomies.Services;
 using Orchard.ContentManagement;
 
-namespace Contrib.ExternalImportExport.Services.Stratagies {
+namespace Contrib.ImportExport.Services.Stratagies {
     public class CategoryReferencesImportStratagy : IMultipleImportStratagy {
         private readonly ITaxonomyImportService _taxonomyImportService;
         private readonly ITaxonomyService _taxonomyService;

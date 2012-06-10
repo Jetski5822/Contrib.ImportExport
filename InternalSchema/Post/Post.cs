@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Linq;
 using System.Xml.Serialization;
-using Contrib.ExternalImportExport.InternalSchema.Common;
-using Contrib.ExternalImportExport.InternalSchema.Post.Additional;
+using Contrib.ImportExport.InternalSchema.Common;
+using Contrib.ImportExport.InternalSchema.Post.Additional;
 
-namespace Contrib.ExternalImportExport.InternalSchema.Post {
+namespace Contrib.ImportExport.InternalSchema.Post {
 	/// <summary>
 	/// Implementation of the "postType" from the BlogML XSD.
 	/// </summary>
@@ -89,7 +89,7 @@ namespace Contrib.ExternalImportExport.InternalSchema.Post {
 		/// The number of views of this post
 		/// </summary>
 		[XmlAttribute("views")]
-		public string Views { get; set; }
+		public uint Views { get; set; }
 		
 		public Post() : base() {
 			// These are the only required item.

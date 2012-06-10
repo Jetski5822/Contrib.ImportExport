@@ -2,10 +2,11 @@
 using System.IO;
 using System.Linq;
 using System.Text;
-using Contrib.ExternalImportExport.InternalSchema;
+using Contrib.ImportExport.InternalSchema;
 
-namespace Contrib.ExternalImportExport.Providers {
+namespace Contrib.ImportExport.Providers {
     public interface IBlogAssembler {
+        string Name { get; }
         Blog Assemble(Stream stream);
     }
 }

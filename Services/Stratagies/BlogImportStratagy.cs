@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
-using Contrib.ExternalImportExport.InternalSchema;
-using Contrib.ExternalImportExport.Models;
+using Contrib.ImportExport.InternalSchema;
+using Contrib.ImportExport.Models;
 using Orchard.Blogs.Models;
 using Orchard.Blogs.Services;
 using Orchard.ContentManagement;
@@ -13,7 +13,7 @@ using Orchard.Security;
 using Orchard.Settings;
 using Orchard.Tasks;
 
-namespace Contrib.ExternalImportExport.Services.Stratagies {
+namespace Contrib.ImportExport.Services.Stratagies {
     public class BlogImportStratagy {
         private readonly IContentManager _contentManager;
         private readonly IEnumerable<IMultipleImportStratagy> _importStratagies;
@@ -65,8 +65,8 @@ namespace Contrib.ExternalImportExport.Services.Stratagies {
 
             _contentManager.Publish(contentItem);
 
-            contentItem.As<ICommonPart>().CreatedUtc = DateTime.Parse(blogToImport.DateCreated);
-            contentItem.As<ICommonPart>().VersionCreatedUtc = DateTime.Parse(blogToImport.DateCreated);
+            contentItem.As<ICommonPart>().CreatedUtc = blogToImport.DateCreated;
+            contentItem.As<ICommonPart>().VersionCreatedUtc = blogToImport.DateCreated;
             contentItem.As<ICommonPart>().Owner = _membershipService.GetUser(_siteService.GetSiteSettings().SuperUser);
 
             _contentManager.Flush();
@@ -80,7 +80,7 @@ namespace Contrib.ExternalImportExport.Services.Stratagies {
 
             var recordNumber = 1;
             var recordsToProcess = importSettings.RecordsToProcess == 0 ? blogToImport.Posts.PostList.Count : importSettings.RecordsToProcess;
-            var blogPostsToImport = blogToImport.Posts.PostList.Skip(importSettings.StartRecordNumber).Take(recordsToProcess);
+            var blogPostsToImport = blogToImport.Posts.PostList.Skip(importSettings.StartRecordNumber).Take(recordsToProcess).ToList();
 
             var count = blogPostsToImport.Count();
 

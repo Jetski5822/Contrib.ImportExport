@@ -1,6 +1,6 @@
 using System.Xml.Serialization;
 
-namespace Contrib.ExternalImportExport.InternalSchema.Common {
+namespace Contrib.ImportExport.InternalSchema.Common {
 	/// <summary>
 	/// Implementation of the "titleType" from the BlogML XSD.
 	/// </summary>

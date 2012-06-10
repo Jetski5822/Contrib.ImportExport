@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Xml.Serialization;
 
-namespace Contrib.ExternalImportExport.InternalSchema.Category {
+namespace Contrib.ImportExport.InternalSchema.Category {
 	/// <summary>
 	/// Implementation of the "categoriesType" from the BlogML XSD.
 	/// </summary>

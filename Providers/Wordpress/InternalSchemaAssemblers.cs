@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Linq;
-using Contrib.ExternalImportExport.InternalSchema.Category;
-using Contrib.ExternalImportExport.InternalSchema.Common;
-using Contrib.ExternalImportExport.InternalSchema.Post;
-using Contrib.ExternalImportExport.InternalSchema.Post.Additional;
-using Contrib.ExternalImportExport.InternalSchema.Tag;
+using Contrib.ImportExport.InternalSchema.Category;
+using Contrib.ImportExport.InternalSchema.Common;
+using Contrib.ImportExport.InternalSchema.Post;
+using Contrib.ImportExport.InternalSchema.Post.Additional;
+using Contrib.ImportExport.InternalSchema.Tag;
 
-namespace Contrib.ExternalImportExport.Providers.Wordpress {
+namespace Contrib.ImportExport.Providers.Wordpress {
     internal static class InternalSchemaAssemblers {
         internal static Category AssembleCategory(WordpressNamespaces namespaces, XElement categoryElement) {
             Category category = new Category();
@@ -188,7 +188,7 @@ namespace Contrib.ExternalImportExport.Providers.Wordpress {
             trackback.DateCreated =
                 DateTime.Parse(trackbackElement.Element(namespaces.WpNamespace + "comment_date_gmt").Value);
 
-            trackback.URL = trackbackElement.Element(namespaces.WpNamespace + "comment_author_url").Value;
+            trackback.Url = trackbackElement.Element(namespaces.WpNamespace + "comment_author_url").Value;
 
             return trackback;
         }

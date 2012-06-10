@@ -1,6 +1,6 @@
 using System.Xml.Linq;
 
-namespace Contrib.ExternalImportExport.Providers.Wordpress {
+namespace Contrib.ImportExport.Providers.Wordpress {
     internal class WordpressNamespaces {
         protected internal XNamespace ExcerptNamespace { get; set; }
         protected internal XNamespace ContentNamespace { get; set; }

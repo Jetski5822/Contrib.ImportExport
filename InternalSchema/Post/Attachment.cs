@@ -1,7 +1,7 @@
 using System.Xml.Serialization;
-using Contrib.ExternalImportExport.InternalSchema.Common;
+using Contrib.ImportExport.InternalSchema.Common;
 
-namespace Contrib.ExternalImportExport.InternalSchema.Post {
+namespace Contrib.ImportExport.InternalSchema.Post {
 	/// <summary>
 	/// Implementation of the "attachmentType" from the BlogML XSD.
 	/// </summary>
@@ -41,8 +41,8 @@ namespace Contrib.ExternalImportExport.InternalSchema.Post {
 		/// <summary>
 		/// The content of the attachment
 		/// </summary>
-		[XmlText(typeof(string))]
-		public string Value { get; set; }
+		[XmlText(typeof(byte[]))]
+		public byte[] Value { get; set; }
 		
 		public Attachment() : base() { }
 	}
