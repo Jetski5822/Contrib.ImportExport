@@ -3,13 +3,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using Contrib.ImportExport.InternalSchema;
+using Contrib.ImportExport.InternalSchema.Post;
 using Contrib.ImportExport.Models;
 using Orchard;
+using Orchard.Autoroute.Models;
 using Orchard.Blogs.Models;
 using Orchard.Blogs.Services;
 using Orchard.ContentManagement;
 using Orchard.ContentManagement.Aspects;
 using Orchard.Core.Title.Models;
+using Orchard.Environment.Configuration;
+using Orchard.Environment.Descriptor;
+using Orchard.Environment.State;
 using Orchard.Security;
 using Orchard.Settings;
 using Orchard.Tasks;
@@ -28,7 +33,9 @@ namespace Contrib.ImportExport.Services.Stratagies {
         private readonly IMembershipService _membershipService;
         private readonly ISiteService _siteService;
         private readonly IBlogService _blogService;
-        private readonly IBlogPostImportStratagy _blogPostImportStratagy;
+        private readonly IProcessingEngine _processingEngine;
+        private readonly ShellSettings _shellSettings;
+        private readonly IShellDescriptorManager _shellDescriptorManager;
 
         public BlogImportStratagy(IContentManager contentManager, 
             IEnumerable<IMultipleImportStratagy> importStratagies,
@@ -36,14 +43,19 @@ namespace Contrib.ImportExport.Services.Stratagies {
             IMembershipService membershipService,
             ISiteService siteService,
             IBlogService blogService,
-            IBlogPostImportStratagy blogPostImportStratagy) {
+            IProcessingEngine processingEngine,
+            ShellSettings shellSettings,
+            IShellDescriptorManager shellDescriptorManager) {
+
             _contentManager = contentManager;
             _importStratagies = importStratagies;
             _backgroundTask = backgroundTask;
             _membershipService = membershipService;
             _siteService = siteService;
             _blogService = blogService;
-            _blogPostImportStratagy = blogPostImportStratagy;
+            _processingEngine = processingEngine;
+            _shellSettings = shellSettings;
+            _shellDescriptorManager = shellDescriptorManager;
         }
 
         public bool IsType(object objectToImport) {
@@ -51,13 +63,13 @@ namespace Contrib.ImportExport.Services.Stratagies {
         }
 
         public ContentItem Import(ImportSettings importSettings, object objectToImport, IContent parentContent) {
-            Blog blogToImport = (Blog)objectToImport;
+            var blogToImport = (Blog)objectToImport;
 
             var slug = !string.IsNullOrEmpty(importSettings.DefaultBlogSlug) ? importSettings.DefaultBlogSlug : Slugify(blogToImport.Title.Value);
 
             var currentBlog = _blogService.Get(slug);
 
-            ContentItem contentItem = null;
+            ContentItem contentItem;
 
             if (currentBlog != null)
                 contentItem = currentBlog.ContentItem;
@@ -68,7 +80,7 @@ namespace Contrib.ImportExport.Services.Stratagies {
 
             contentItem.As<BlogPart>().Description = blogToImport.SubTitle.Value;
 
-            contentItem.As<IRoutableAspect>().Slug = slug;
+            contentItem.As<AutoroutePart>().DisplayAlias = slug;
 
             _contentManager.Publish(contentItem);
 
@@ -85,19 +97,10 @@ namespace Contrib.ImportExport.Services.Stratagies {
             Console.WriteLine("Blog imported");
             Console.WriteLine("Importing blog posts");
 
-            var recordNumber = 1;
             var recordsToProcess = importSettings.RecordsToProcess == 0 ? blogToImport.Posts.PostList.Count : importSettings.RecordsToProcess;
             var blogPostsToImport = blogToImport.Posts.PostList.Skip(importSettings.StartRecordNumber).Take(recordsToProcess).ToList();
 
-            var count = blogPostsToImport.Count();
-
-            foreach (var post in blogPostsToImport) {
-                var contentItemReturned = _blogPostImportStratagy.Import(importSettings, post, contentItem);
-                contentItemReturned.ContentManager.Flush();
-
-                Console.WriteLine("Importing blog post {0}, Records left: {1}", recordNumber, count - recordNumber);
-                recordNumber++;
-            }
+            ImportPostsInBatches(importSettings, contentItem, blogPostsToImport);
 
             return contentItem;
         }
@@ -105,6 +108,28 @@ namespace Contrib.ImportExport.Services.Stratagies {
         public void ImportAdditionalContentItems<T>(ImportSettings importSettings, T objectToImport, IContent parentContent) {
             foreach (var importStratagy in _importStratagies.Where(importStratagy => importStratagy.IsType(objectToImport))) {
                 importStratagy.Import(importSettings, objectToImport, parentContent);
+            }
+        }
+
+        private void ImportPostsInBatches(ImportSettings importSettings, IContent parentContentItem, ICollection<Post> posts) {
+            _contentManager.Flush();
+            _contentManager.Clear();
+            const int batchSize = 100;
+            int batchNo = 1;
+            for (var i = 0; i < posts.Count; i += batchSize) {
+                var postBatch = posts.Skip(i).Take(batchSize).ToList();
+                _processingEngine.AddTask(
+                    _shellSettings,
+                    _shellDescriptorManager.GetShellDescriptor(),
+                    "IScheduledBlogPostCollectionImport.Import",
+                    new Dictionary<string, object> {
+                        {"importSettings", importSettings},
+                        {"parentContentItem", parentContentItem},
+                        {"posts", postBatch},
+                        {"batchNumber", batchNo}
+                    });
+
+                batchNo++;
             }
         }
 
