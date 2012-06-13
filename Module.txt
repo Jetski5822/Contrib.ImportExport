@@ -7,7 +7,7 @@ OrchardVersion: 1.4.0
 Description: A module to allow importing and exporting from external blogging schemas.
 Features:
     Contrib.ImportExport:
-        Name: Import / Export
+        Name: Import / Export externa; schemas
         Description: A module to allow importing and exporting from external blogging schemas.
         Category: Content Publishing
         Dependencies: Orchard.Autoroute, Orchard.Blogs, Orchard.Comments, Orchard.Users, Contrib.Taxonomies
