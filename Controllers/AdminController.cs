@@ -4,6 +4,7 @@ using System.Web;
 using System.Web.Mvc;
 using Contrib.ImportExport.Extensions;
 using Contrib.ImportExport.Models;
+using Contrib.ImportExport.Providers;
 using Contrib.ImportExport.Services;
 using Contrib.ImportExport.ViewModels;
 using Orchard;
@@ -18,11 +19,13 @@ namespace Contrib.ImportExport.Controllers {
     public class AdminController : Controller {
         private readonly IImportService _importService;
         private readonly IBlogService _blogService;
+        private readonly IEnumerable<IBlogAssembler> _assemblers;
 
-        public AdminController(IOrchardServices services, IImportService importService, IBlogService blogService) {
+        public AdminController(IOrchardServices services, IImportService importService, IBlogService blogService, IEnumerable<IBlogAssembler> assemblers) {
             Services = services;
             _importService = importService;
             _blogService = blogService;
+            _assemblers = assemblers;
 
             T = NullLocalizer.Instance;
         }
@@ -36,16 +39,19 @@ namespace Contrib.ImportExport.Controllers {
 
             var blogs = _blogService.Get().Select(o => new KeyValuePair<int, string>(o.Id, o.Name)).ToReadOnlyCollection();
             
-            return new ShapeResult(this, new ImportAdminViewModel { Settings = new ImportSettings { SlugPattern = @"/([^/]+)\.aspx" }, Blogs = blogs });
+            return new ShapeResult(this, 
+                new ImportAdminViewModel
+                    {
+                        SupportedSchemas = _assemblers.Select(o => o.Name).ToReadOnlyCollection(),
+                        Settings = new ImportSettings { SlugPattern = @"/([^/]+)\.aspx" }, 
+                        Blogs = blogs
+                    });
         }
 
         [HttpPost, ActionName("Import")]
-        public ActionResult ImportPost(FormCollection formCollection) {
+        public ActionResult ImportPost(ImportAdminViewModel viewModel) {
             if (!Services.Authorizer.Authorize(Permissions.ImportBlog, T("Cannot Import Blog")))
                 return new HttpUnauthorizedResult();
-            
-            var viewModel = new ImportAdminViewModel();
-            UpdateModel(viewModel, formCollection);
 
             if (ModelState.IsValid) {
                 if (!string.IsNullOrWhiteSpace(viewModel.Settings.UrlItemPath)) {

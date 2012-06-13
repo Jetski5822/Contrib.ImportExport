@@ -1,5 +1,7 @@
 ﻿namespace Contrib.ImportExport.Models {
     public class ImportSettings {
+        public string SelectedSchema { get; set; }
+
         public string Type { get; set; }
 
         public string UrlItemPath { get; set; }

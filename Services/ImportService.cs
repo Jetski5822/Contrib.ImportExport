@@ -84,10 +84,7 @@ namespace Contrib.ImportExport.Services {
         }
 
         private Blog AssembleBlog(Stream stream, ImportSettings importSettings) {
-            foreach (var blogAssembler in _blogAssemblers.Where(o => o.Name == importSettings.Type)) {
-                return blogAssembler.Assemble(stream);
-            }
-            return null;
+            return _blogAssemblers.Single(o => o.Name == importSettings.SelectedSchema).Assemble(stream);
         }
 
         private void ImportBlog(Blog blog, ImportSettings importSettings) {
