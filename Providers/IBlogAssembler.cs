@@ -4,9 +4,10 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using Contrib.ImportExport.InternalSchema;
+using Orchard;
 
 namespace Contrib.ImportExport.Providers {
-    public interface IBlogAssembler {
+    public interface IBlogAssembler : IDependency {
         string Name { get; }
         Blog Assemble(Stream stream);
     }
