@@ -31,9 +31,10 @@ namespace Contrib.ImportExport.Services.Stratagies {
             if (categoriesToImport.CategoryReferenceList.Count == 0)
                 return null;
 
-            var taxonomyPart = _taxonomyImportService.CreateTaxonomy("Categories");
+            const string taxonomyName = "Categories";
+            var taxonomyPart = _taxonomyImportService.CreateTaxonomy(taxonomyName);
 
-            var currentTerms = _taxonomyService.GetTermsForContentItem(parentContent.ContentItem.Id, "Categories").ToList();
+            var currentTerms = _taxonomyService.GetTermsForContentItem(parentContent.ContentItem.Id, taxonomyName).ToList();
 
             foreach (var categoryReference in categoriesToImport.CategoryReferenceList) {
                 if (string.IsNullOrWhiteSpace(categoryReference.Title))
@@ -54,7 +55,7 @@ namespace Contrib.ImportExport.Services.Stratagies {
                 }
             }
 
-            _taxonomyService.UpdateTerms(parentContent.ContentItem, currentTerms, "Categories");
+            _taxonomyService.UpdateTerms(parentContent.ContentItem, currentTerms, taxonomyName);
 
             return null;
         }

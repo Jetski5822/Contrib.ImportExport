@@ -1,0 +1,13 @@
+﻿Name: Import / Export
+AntiForgery: enabled
+Author: Nicholas Mayne & Onestop
+Website: http://www.themayneissue.com
+Version: 1.0.0
+OrchardVersion: 1.4.0
+Description: A module to allow importing and exporting from external blogging schemas.
+Features:
+    Contrib.ImportExport:
+        Name: Import / Export
+        Description: A module to allow importing and exporting from external blogging schemas.
+        Category: Content Publishing
+        Dependencies: Orchard.Autoroute, Orchard.Blogs, Orchard.Comments, Orchard.Users, Contrib.Taxonomies
