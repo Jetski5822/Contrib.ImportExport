@@ -39,7 +39,7 @@ namespace Contrib.ImportExport.Controllers {
 
             var blogs = _blogService.Get().Select(o => new KeyValuePair<int, string>(o.Id, o.Name)).ToReadOnlyCollection();
             
-            return new ShapeResult(this, 
+            return View(
                 new ImportAdminViewModel
                     {
                         SupportedSchemas = _assemblers.Select(o => o.Name).ToReadOnlyCollection(),
@@ -74,7 +74,7 @@ namespace Contrib.ImportExport.Controllers {
 
             viewModel.Blogs = _blogService.Get().Select(o => new KeyValuePair<int, string>(o.Id, o.Name)).ToReadOnlyCollection();
 
-            return new ShapeResult(this, viewModel);
+            return View(viewModel);
         }
 
         //public ActionResult Export(int id) {
