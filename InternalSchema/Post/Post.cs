@@ -95,6 +95,10 @@ namespace Contrib.ImportExport.InternalSchema.Post {
 			// These are the only required item.
 			Content = new Content();
 			Authors = new AuthorReferences();
+            Attachments = new Attachments();
+            Authors = new AuthorReferences();
+            Categories = new CategoryReferences();
+            Comments = new Comments();
 		}
 	}
 }

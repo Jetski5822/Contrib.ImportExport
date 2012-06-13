@@ -75,7 +75,7 @@ namespace Contrib.ImportExport.Providers.BlogML {
                     Comment comment = new Comment();
                     comment.ID = blogMLComment.ID;
                     comment.Approved = blogMLComment.Approved;
-                    comment.Content = new Content { Type = blogMLComment.Content.ContentType.ToString(), Value = blogMLComment.Content.Text };
+                    comment.Content = new Content { Type = blogMLComment.Content.ContentType.ToString().ToLowerInvariant(), Value = blogMLComment.Content.Text };
                     comment.DateCreated = blogMLComment.DateCreated;
                     comment.DateModified = blogMLComment.DateModified;
                     comment.Title = blogMLComment.Title;
@@ -85,28 +85,27 @@ namespace Contrib.ImportExport.Providers.BlogML {
                     post.Comments.CommentList.Add(comment);
                 }
 
-                foreach (BlogMLTrackback blogMLTrackback in blogMLPost.Trackbacks) {
-                    Trackback trackback = new Trackback();
-                    trackback.ID = blogMLTrackback.ID;
-                    trackback.Approved = blogMLTrackback.Approved;
-                    trackback.DateCreated = blogMLTrackback.DateCreated;
-                    trackback.DateModified = blogMLTrackback.DateModified;
-                    trackback.Title = blogMLTrackback.Title;
-                    trackback.Url = blogMLTrackback.Url;
-                }
+                // hmm do I care?
+                //foreach (BlogMLTrackback blogMLTrackback in blogMLPost.Trackbacks) {
+                //    Trackback trackback = new Trackback();
+                //    trackback.ID = blogMLTrackback.ID;
+                //    trackback.Approved = blogMLTrackback.Approved;
+                //    trackback.DateCreated = blogMLTrackback.DateCreated;
+                //    trackback.DateModified = blogMLTrackback.DateModified;
+                //    trackback.Title = blogMLTrackback.Title;
+                //    trackback.Url = blogMLTrackback.Url;
+                //}
 
                 post.Approved = blogMLPost.Approved;
 
-                post.Content = new Content
-                                   {Type = blogMLPost.Content.ContentType.ToString(), Value = blogMLPost.Content.Text};
+                post.Content = new Content { Type = blogMLPost.Content.ContentType.ToString().ToLowerInvariant(), Value = blogMLPost.Content.Text };
 
                 post.DateCreated = blogMLPost.DateCreated;
                 post.DateModified = blogMLPost.DateModified;
                 post.HasExcerpt = blogMLPost.HasExcerpt;
 
                 if (post.HasExcerpt)
-                    post.Excerpt = new Content
-                                   {Type = blogMLPost.Excerpt.ContentType.ToString(), Value = blogMLPost.Excerpt.Text};
+                    post.Excerpt = new Content { Type = blogMLPost.Excerpt.ContentType.ToString().ToLowerInvariant(), Value = blogMLPost.Excerpt.Text };
 
                 post.PostName = new Title {Type = Content.TypeHTML, Value = blogMLPost.PostName};
                 post.PostUrl = blogMLPost.PostUrl;

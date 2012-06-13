@@ -53,6 +53,8 @@ namespace Contrib.ImportExport.Controllers {
             if (!Services.Authorizer.Authorize(Permissions.ImportBlog, T("Cannot Import Blog")))
                 return new HttpUnauthorizedResult();
 
+            TryUpdateModel(viewModel.Settings);
+
             if (ModelState.IsValid) {
                 if (!string.IsNullOrWhiteSpace(viewModel.Settings.UrlItemPath)) {
                     if (viewModel.Settings.UrlItemPath.IsValidUrl())
@@ -73,6 +75,7 @@ namespace Contrib.ImportExport.Controllers {
             }
 
             viewModel.Blogs = _blogService.Get().Select(o => new KeyValuePair<int, string>(o.Id, o.Name)).ToReadOnlyCollection();
+            viewModel.SupportedSchemas = _assemblers.Select(o => o.Name).ToReadOnlyCollection();
 
             return View(viewModel);
         }

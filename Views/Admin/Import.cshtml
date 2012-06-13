@@ -20,7 +20,7 @@
             @Html.TextBoxFor(m => m.Settings.UrlItemPath, new { @class = "textMedium" })
             
             <label for="importSchema">@T("Select a schema.")</label>
-                @T("<select id=\"importSchema\" name=\"Model.SelectedSchema\">")
+                @T("<select id=\"importSchema\" name=\"SelectedSchema\">")
                 @Html.SelectOption(0, true, T("Choose schema...").ToString())
                 @foreach (var item in Model.SupportedSchemas) {
                     @Html.SelectOption(item, false, T(item).ToString())
@@ -32,7 +32,7 @@
         <legend>Additional Import Settings</legend>
             @if (Model.Blogs != null && Model.Blogs.Any()) {
                 <label for="importActions">@T("Select an existing blog to import import your file into.")</label>
-                @T("<select id=\"importActions\" name=\"Model.BlogIdToImportInto\">")
+                @T("<select id=\"importActions\" name=\"BlogIdToImportInto\">")
                 @Html.SelectOption(0, true, T("Choose action...").ToString())
                 foreach (var item in Model.Blogs) {
                     @Html.SelectOption(item.Key, false, T(item.Value).ToString())
