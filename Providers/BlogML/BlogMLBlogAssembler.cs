@@ -113,6 +113,7 @@ namespace Contrib.ImportExport.Providers.BlogML {
                 post.Title = blogMLPost.Title;
                 post.Type = blogMLPost.PostType.ToString();
                 post.Views = blogMLPost.Views;
+
                 blog.Posts.PostList.Add(post);
             }
         }
