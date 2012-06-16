@@ -85,6 +85,7 @@
     <Compile Include="InternalSchema\Post\Trackbacks.cs" />
     <Compile Include="InternalSchema\Tag\Tag.cs" />
     <Compile Include="InternalSchema\Tag\Tags.cs" />
+    <Compile Include="Migrations.cs" />
     <Compile Include="Models\ImportSettings.cs" />
     <Compile Include="Permissions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
