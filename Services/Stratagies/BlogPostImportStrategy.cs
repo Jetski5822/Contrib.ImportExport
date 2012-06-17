@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Contrib.ImportExport.Helpers;
 using Contrib.ImportExport.InternalSchema.Post;
@@ -14,15 +13,15 @@ using Orchard.Core.Common.Models;
 using Orchard.Core.Title.Models;
 
 namespace Contrib.ImportExport.Services.Stratagies {
-    public class BlogPostImportStratagy : IBlogPostImportStratagy {
+    public class BlogPostImportStrategy : IBlogPostImportStrategy {
         private readonly IContentManager _contentManager;
-        private readonly IEnumerable<IMultipleImportStratagy> _importStratagies;
+        private readonly IEnumerable<IMultipleImportStrategy> _importStratagies;
         private readonly IUserServices _userServices;
         private readonly IDataCleaner _dataCleaner;
         private readonly IBlogPostService _blogPostService;
 
-        public BlogPostImportStratagy(IContentManager contentManager, 
-            IEnumerable<IMultipleImportStratagy> importStratagies, 
+        public BlogPostImportStrategy(IContentManager contentManager, 
+            IEnumerable<IMultipleImportStrategy> importStratagies, 
             IUserServices userServices,
             IDataCleaner dataCleaner,
             IBlogPostService blogPostService) {
@@ -108,9 +107,9 @@ namespace Contrib.ImportExport.Services.Stratagies {
         }
 
         public void ImportAdditionalContentItems<T>(ImportSettings importSettings, T objectToImport, IContent parentContent) {
-            foreach (var importStratagy in _importStratagies) {
-                if (importStratagy.IsType(objectToImport)) {
-                    importStratagy.Import(importSettings, objectToImport, parentContent);
+            foreach (var importStrategy in _importStratagies) {
+                if (importStrategy.IsType(objectToImport)) {
+                    importStrategy.Import(importSettings, objectToImport, parentContent);
                 }
             }
         }

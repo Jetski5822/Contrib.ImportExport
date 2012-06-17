@@ -20,15 +20,15 @@ using Orchard.Settings;
 using Orchard.Tasks;
 
 namespace Contrib.ImportExport.Services.Stratagies {
-    public interface IBlogImportStratagy : IDependency {
+    public interface IBlogImportStrategy : IDependency {
         bool IsType(object objectToImport);
         ContentItem Import(ImportSettings importSettings, object objectToImport, IContent parentContent = null);
         void ImportAdditionalContentItems<T>(ImportSettings importSettings, T objectToImport, IContent parentContent);
     }
 
-    public class BlogImportStratagy : IBlogImportStratagy {
+    public class BlogImportStrategy : IBlogImportStrategy {
         private readonly IContentManager _contentManager;
-        private readonly IEnumerable<IMultipleImportStratagy> _importStratagies;
+        private readonly IEnumerable<IMultipleImportStrategy> _importStratagies;
         private readonly IBackgroundTask _backgroundTask;
         private readonly IMembershipService _membershipService;
         private readonly ISiteService _siteService;
@@ -37,8 +37,8 @@ namespace Contrib.ImportExport.Services.Stratagies {
         private readonly ShellSettings _shellSettings;
         private readonly IShellDescriptorManager _shellDescriptorManager;
 
-        public BlogImportStratagy(IContentManager contentManager, 
-            IEnumerable<IMultipleImportStratagy> importStratagies,
+        public BlogImportStrategy(IContentManager contentManager, 
+            IEnumerable<IMultipleImportStrategy> importStratagies,
             IBackgroundTask backgroundTask,
             IMembershipService membershipService,
             ISiteService siteService,
@@ -106,8 +106,8 @@ namespace Contrib.ImportExport.Services.Stratagies {
         }
 
         public void ImportAdditionalContentItems<T>(ImportSettings importSettings, T objectToImport, IContent parentContent) {
-            foreach (var importStratagy in _importStratagies.Where(importStratagy => importStratagy.IsType(objectToImport))) {
-                importStratagy.Import(importSettings, objectToImport, parentContent);
+            foreach (var importStrategy in _importStratagies.Where(importStrategy => importStrategy.IsType(objectToImport))) {
+                importStrategy.Import(importSettings, objectToImport, parentContent);
             }
         }
 

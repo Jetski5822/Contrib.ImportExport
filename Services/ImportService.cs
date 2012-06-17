@@ -20,16 +20,16 @@ namespace Contrib.ImportExport.Services {
     public class ImportService : IImportService {
 
         private readonly IBackgroundTask _backgroundTask;
-        private readonly IBlogImportStratagy _blogImportStratagy;
+        private readonly IBlogImportStrategy _blogImportStrategy;
         private readonly IEnumerable<IBlogAssembler> _blogAssemblers;
         private readonly IOrchardServices _orchardServices;
 
         public ImportService(IOrchardServices orchardServices,
             IBackgroundTask backgroundTask,
-            IBlogImportStratagy blogImportStratagy,
+            IBlogImportStrategy blogImportStrategy,
             IEnumerable<IBlogAssembler> blogAssemblers) {
             _backgroundTask = backgroundTask;
-            _blogImportStratagy = blogImportStratagy;
+            _blogImportStrategy = blogImportStrategy;
             _blogAssemblers = blogAssemblers;
             _orchardServices = orchardServices;
 
@@ -88,7 +88,7 @@ namespace Contrib.ImportExport.Services {
         }
 
         private void ImportBlog(Blog blog, ImportSettings importSettings) {
-            _blogImportStratagy.Import(importSettings, blog, null);
+            _blogImportStrategy.Import(importSettings, blog, null);
 
             RebuildOrchardIndexes();
 

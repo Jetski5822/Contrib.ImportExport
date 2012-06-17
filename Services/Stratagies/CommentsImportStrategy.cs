@@ -8,11 +8,11 @@ using Orchard.Comments.Services;
 using Orchard.ContentManagement;
 
 namespace Contrib.ImportExport.Services.Stratagies {
-    public class CommentsImportStratagy : IMultipleImportStratagy {
+    public class CommentsImportStrategy : IMultipleImportStrategy {
         private readonly ICommentService _commentService;
         private readonly IDataCleaner _dataCleaner;
 
-        public CommentsImportStratagy(ICommentService commentService,
+        public CommentsImportStrategy(ICommentService commentService,
             IDataCleaner dataCleaner) {
             _commentService = commentService;
             _dataCleaner = dataCleaner;

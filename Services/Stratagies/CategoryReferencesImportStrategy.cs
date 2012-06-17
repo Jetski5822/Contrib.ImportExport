@@ -8,14 +8,14 @@ using Contrib.Taxonomies.Services;
 using Orchard.ContentManagement;
 
 namespace Contrib.ImportExport.Services.Stratagies {
-    public class CategoryReferencesImportStratagy : IMultipleImportStratagy {
+    public class CategoryReferencesImportStrategy : IMultipleImportStrategy {
         private readonly ITaxonomyImportService _taxonomyImportService;
         private readonly ITaxonomyService _taxonomyService;
         private readonly IContentManager _contentManager;
 
         private readonly ConcurrentDictionary<string, TermPart> _categories = new ConcurrentDictionary<string, TermPart>(); 
 
-        public CategoryReferencesImportStratagy(ITaxonomyImportService taxonomyImportService, ITaxonomyService taxonomyService, IContentManager contentManager) {
+        public CategoryReferencesImportStrategy(ITaxonomyImportService taxonomyImportService, ITaxonomyService taxonomyService, IContentManager contentManager) {
             _taxonomyImportService = taxonomyImportService;
             _taxonomyService = taxonomyService;
             _contentManager = contentManager;

@@ -3,10 +3,10 @@ using Contrib.ImportExport.Models;
 using Orchard.ContentManagement;
 
 namespace Contrib.ImportExport.Services.Stratagies {
-    public class AuthorsImportStratagy : IMultipleImportStratagy {
+    public class AuthorsImportStrategy : IMultipleImportStrategy {
         private readonly IUserServices _userService;
 
-        public AuthorsImportStratagy(IUserServices userService) {
+        public AuthorsImportStrategy(IUserServices userService) {
             _userService = userService;
         }
 
