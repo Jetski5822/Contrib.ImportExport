@@ -2,7 +2,7 @@ using Contrib.ImportExport.Models;
 using Orchard;
 using Orchard.ContentManagement;
 
-namespace Contrib.ImportExport.Services.Stratagies {
+namespace Contrib.ImportExport.Services.Strategies {
     public interface IBlogPostImportStrategy : IDependency {
         bool IsType(object objectToImport);
         ContentItem Import(ImportSettings importSettings, object objectToImport, IContent parentContent = null);

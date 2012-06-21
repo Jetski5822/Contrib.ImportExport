@@ -7,7 +7,7 @@ using System.Web;
 using Contrib.ImportExport.InternalSchema;
 using Contrib.ImportExport.Models;
 using Contrib.ImportExport.Providers;
-using Contrib.ImportExport.Services.Stratagies;
+using Contrib.ImportExport.Services.Strategies;
 using ICSharpCode.SharpZipLib.Zip;
 using JetBrains.Annotations;
 using Orchard;

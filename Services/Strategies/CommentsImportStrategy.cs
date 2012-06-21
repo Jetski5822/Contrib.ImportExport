@@ -7,7 +7,7 @@ using Orchard.Comments.Models;
 using Orchard.Comments.Services;
 using Orchard.ContentManagement;
 
-namespace Contrib.ImportExport.Services.Stratagies {
+namespace Contrib.ImportExport.Services.Strategies {
     public class CommentsImportStrategy : IMultipleImportStrategy {
         private readonly ICommentService _commentService;
         private readonly IDataCleaner _dataCleaner;

@@ -7,7 +7,7 @@ using Contrib.Taxonomies.Models;
 using Contrib.Taxonomies.Services;
 using Orchard.ContentManagement;
 
-namespace Contrib.ImportExport.Services.Stratagies {
+namespace Contrib.ImportExport.Services.Strategies {
     public class TagReferencesImportStrategy : IMultipleImportStrategy {
         private readonly ITaxonomyImportService _taxonomyImportService;
         private readonly ITaxonomyService _taxonomyService;

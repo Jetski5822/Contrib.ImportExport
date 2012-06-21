@@ -2,7 +2,7 @@
 using Contrib.ImportExport.Models;
 using Orchard.ContentManagement;
 
-namespace Contrib.ImportExport.Services.Stratagies {
+namespace Contrib.ImportExport.Services.Strategies {
     public class AuthorsImportStrategy : IMultipleImportStrategy {
         private readonly IUserServices _userService;
 

@@ -19,7 +19,7 @@ using Orchard.Security;
 using Orchard.Settings;
 using Orchard.Tasks;
 
-namespace Contrib.ImportExport.Services.Stratagies {
+namespace Contrib.ImportExport.Services.Strategies {
     public interface IBlogImportStrategy : IDependency {
         bool IsType(object objectToImport);
         ContentItem Import(ImportSettings importSettings, object objectToImport, IContent parentContent = null);

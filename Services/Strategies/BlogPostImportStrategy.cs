@@ -12,7 +12,7 @@ using Orchard.ContentManagement.Aspects;
 using Orchard.Core.Common.Models;
 using Orchard.Core.Title.Models;
 
-namespace Contrib.ImportExport.Services.Stratagies {
+namespace Contrib.ImportExport.Services.Strategies {
     public class BlogPostImportStrategy : IBlogPostImportStrategy {
         private readonly IContentManager _contentManager;
         private readonly IEnumerable<IMultipleImportStrategy> _importStratagies;

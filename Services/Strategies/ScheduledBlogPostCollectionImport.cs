@@ -5,7 +5,7 @@ using Contrib.ImportExport.Models;
 using Orchard.ContentManagement;
 using Orchard.Events;
 
-namespace Contrib.ImportExport.Services.Stratagies {
+namespace Contrib.ImportExport.Services.Strategies {
     public interface IScheduledBlogPostCollectionImport : IEventHandler {
             void Import(ImportSettings importSettings, ContentItem parentContentItem, ICollection<Post> posts, int batchNumber);
     }
