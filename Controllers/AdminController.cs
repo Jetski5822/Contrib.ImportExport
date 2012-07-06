@@ -41,7 +41,7 @@ namespace Contrib.ImportExport.Controllers {
             return View(
                 new ImportAdminViewModel
                     {
-                        SupportedSchemas = _assemblers.Select(o => o.Name).ToReadOnlyCollection(),
+                        SupportedSchemas = _assemblers.Where(x => !x.IsFeed).Select(o => o.Name).ToReadOnlyCollection(),
                         Settings = new ImportSettings { SlugPattern = @"/([^/]+)\.aspx" }, 
                         Blogs = blogs
                     });
@@ -74,9 +74,23 @@ namespace Contrib.ImportExport.Controllers {
             }
 
             viewModel.Blogs = _blogService.Get().Select(o => new KeyValuePair<int, string>(o.Id, o.Name)).ToReadOnlyCollection();
-            viewModel.SupportedSchemas = _assemblers.Select(o => o.Name).ToReadOnlyCollection();
+            viewModel.SupportedSchemas = _assemblers.Where(x => !x.IsFeed).Select(o => o.Name).ToReadOnlyCollection();
 
             return View(viewModel);
+        }
+
+        public ActionResult ImportFeed() {
+            if (!Services.Authorizer.Authorize(Permissions.ImportBlog, T("Cannot Import Blog")))
+                return new HttpUnauthorizedResult();
+
+            var blogs = _blogService.Get().Select(o => new KeyValuePair<int, string>(o.Id, o.Name)).ToReadOnlyCollection();
+
+            return View(
+                new ImportFeedAdminViewModel {
+                    SupportedSchemas = _assemblers.Where(x => x.IsFeed).Select(o => o.Name).ToReadOnlyCollection(),
+                    Settings = new ImportSettings { SlugPattern = @"/([^/]+)\.aspx" },
+                    Blogs = blogs
+                });
         }
 
         //public ActionResult Export(int id) {

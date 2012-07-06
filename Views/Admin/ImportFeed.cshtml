@@ -1,0 +1,17 @@
+@using System.Web.Mvc.Html
+@using Orchard.Mvc.Html
+@model Contrib.ImportExport.ViewModels.ImportFeedAdminViewModel
+
+<h1>@Html.TitleForPage(T("Import A Blog from Feed").ToString())</h1>
+
+@using(Html.BeginForm("Import", "Admin", FormMethod.Post, new { area = "Contrib.ImportExport", enctype = "multipart/form-data" })) { 
+    @Html.ValidationSummary() 
+    <fieldset>
+        <label for="Model_FeedUrl">@T("Feed Url")</label>
+        @Html.TextBoxFor(m => m.FeedUrl, new { @class = "textLarge" })
+    </fieldset>
+    <fieldset>
+		<input type="submit" class="button" value="@T("Upload file and Import")" />
+		@Html.AntiForgeryTokenOrchard()
+	</fieldset>
+}

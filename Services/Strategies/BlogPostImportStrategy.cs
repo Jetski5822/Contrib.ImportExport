@@ -75,6 +75,9 @@ namespace Contrib.ImportExport.Services.Strategies {
 
             contentItem.As<CommentsPart>().CommentsActive = blogPostToImport.Comments.Enabled;
 
+            if (blogPostToImport.HasExcerpt)
+                ((dynamic) contentItem).ExcerptPart.Excerpt.Value = blogPostToImport.Excerpt.Value;
+
             ImportAdditionalContentItems(importSettings, blogPostToImport.Categories, contentItem);
             ImportAdditionalContentItems(importSettings, blogPostToImport.Tags, contentItem);
 

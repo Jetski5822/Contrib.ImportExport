@@ -16,6 +16,10 @@ namespace Contrib.ImportExport.Providers.Wordpress {
             get { return "Wordpress"; }
         }
 
+        public bool IsFeed {
+            get { return false; }
+        }
+
         public Blog Assemble(Stream stream) {
             var file = XElement.Load(stream);
 

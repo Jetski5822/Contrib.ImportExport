@@ -27,6 +27,10 @@ namespace Contrib.ImportExport.Providers.BlogML {
             get { return "BlogML"; }
         }
 
+        public bool IsFeed {
+            get { return false; }
+        }
+
         public Blog Assemble(Stream stream) {
             var blogMLBlog = DeserializeBlogMlByStream(stream);
 
@@ -49,6 +53,10 @@ namespace Contrib.ImportExport.Providers.BlogML {
                 Post post = new Post();
                 post.ID = blogMLPost.ID;
 
+                post.HasExcerpt = blogMLPost.HasExcerpt;
+                if (post.HasExcerpt)
+                    post.Excerpt = new Content { Type = blogMLPost.Excerpt.ContentType.ToString().ToLowerInvariant(), Value = blogMLPost.Excerpt.Text };
+
                 foreach (BlogMLAttachment blogMLAttachment in blogMLPost.Attachments) {
                     Attachment attachment = new Attachment();
                     attachment.Embedded = blogMLAttachment.Embedded;
@@ -64,7 +72,7 @@ namespace Contrib.ImportExport.Providers.BlogML {
                     authorReference.ID = blogMLAuthor.Ref;
                     post.Authors.AuthorReferenceList.Add(authorReference);
                 }
-
+                
                 foreach (BlogMLCategoryReference blogMLCategory in blogMLPost.Categories) {
                     CategoryReference categoryReference = new CategoryReference();
                     categoryReference.ID = blogMLCategory.Ref;

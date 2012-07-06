@@ -9,6 +9,7 @@ using Orchard;
 namespace Contrib.ImportExport.Providers {
     public interface IBlogAssembler : IDependency {
         string Name { get; }
+        bool IsFeed { get; }
         Blog Assemble(Stream stream);
     }
 }

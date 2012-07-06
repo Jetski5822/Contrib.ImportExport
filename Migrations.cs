@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using Contrib.ImportExport.Services;
 using Orchard.ContentManagement.MetaData;
+using Orchard.Core.Contents.Extensions;
 using Orchard.Data.Migration;
 
 namespace Contrib.ImportExport {
@@ -29,6 +30,17 @@ namespace Contrib.ImportExport {
                     .WithSetting("TaxonomyFieldSettings.Taxonomy", tagsTaxonomyPart.Name)));
 
             return 1;
+        }
+
+        public int UpdateFrom1() {
+            ContentDefinitionManager.AlterPartDefinition("ExcerptPart", builder => builder
+                .WithField("Excerpt", cfg => cfg.OfType("TextField"))
+                .Attachable());
+
+            ContentDefinitionManager.AlterTypeDefinition("BlogPost", cfg => cfg
+                .WithPart("ExcerptPart"));
+
+            return 2;
         }
     }
 }

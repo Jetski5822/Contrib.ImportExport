@@ -1,0 +1,12 @@
+using System.Collections.Generic;
+using Contrib.ImportExport.Models;
+
+namespace Contrib.ImportExport.ViewModels {
+    public class ImportFeedAdminViewModel {
+        public IList<string> SupportedSchemas { get; set; }
+    
+        public ImportSettings Settings { get; set; }
+
+        public IEnumerable<KeyValuePair<int, string>> Blogs { get; set; }
+    }
+}
