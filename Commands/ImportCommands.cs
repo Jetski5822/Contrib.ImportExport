@@ -33,11 +33,16 @@ namespace Contrib.ImportExport.Commands {
         [OrchardSwitch]
         public string RecordsToProcess { get; set; }
 
-        [CommandName("wordpress import")]
-        [CommandHelp("wordpress import /Filename:<Filename>, /DefaultBlogSlug:<DefaultBlogSlug> /OffendingHosts:<OffendingHosts> /Override:<Override> /StartRecordNumber:<StartRecordNumber> /RecordsToProcess:<RecordsToProcess>")]
-        [OrchardSwitches("Filename,DefaultBlogSlug,OffendingHosts,Override,StartRecordNumber,RecordsToProcess")]
+        [OrchardSwitch]
+        public string SelectedSchema { get; set; }
+        
+        [CommandName("externalblog import")]
+        [CommandHelp("externalblog import /Filename:<Filename>, /DefaultBlogSlug:<DefaultBlogSlug> /OffendingHosts:<OffendingHosts> /Override:<Override> /StartRecordNumber:<StartRecordNumber> /RecordsToProcess:<RecordsToProcess> /SelectedSchema:<SelectedSchema>")]
+        [OrchardSwitches("Filename,DefaultBlogSlug,OffendingHosts,Override,StartRecordNumber,RecordsToProcess,SelectedSchema")]
         public void Import() {
             var importSettings = new ImportSettings();
+
+            importSettings.SelectedSchema = SelectedSchema;
 
             if (!string.IsNullOrEmpty(DefaultBlogSlug))
                 importSettings.DefaultBlogSlug = DefaultBlogSlug;
