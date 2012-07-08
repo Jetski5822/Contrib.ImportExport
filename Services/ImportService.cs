@@ -57,19 +57,33 @@ namespace Contrib.ImportExport.Services {
         }
 
         public void Import(string urlItemPath, ImportSettings importSettings) {
-            var client = new WebClient();
-            Stream stream = null;
-            try {
-                stream = client.OpenRead(urlItemPath);
-
-                ImportStream(importSettings, stream);
+            using (var client = new WebClient()) {
+                using (Stream stream = client.OpenRead(urlItemPath)) {
+                    try {
+                        ImportStream(importSettings, stream);
+                    }
+                    catch (Exception ex) {
+                        _orchardServices.Notifier.Error(T("An error occured loading your blog, please check permissions and file is accessible, error: {0}", ex.Message));
+                    }
+                    finally {
+                        if (stream != null)
+                            stream.Close();
+                    }
+                }
             }
-            catch (Exception ex) {
-                _orchardServices.Notifier.Error(T("An error occured loading your blog, please check permissions and file is accessible, error: {0}", ex.Message));
-            } finally {
-                if (stream != null)
+        }
+
+        public void Import(FileInfo fileInfo, ImportSettings importSettings) {
+            using (Stream stream = fileInfo.OpenRead()) {
+                try {
+                    ImportStream(importSettings, stream);
+                }
+                catch (Exception ex) {
+                    _orchardServices.Notifier.Error(T("An error occured loading your blog, please check permissions and file is accessible, error: {0}", ex.Message));
+                }
+                finally {
                     stream.Close();
-                client.Dispose();
+                }
             }
         }
 
@@ -110,14 +124,15 @@ namespace Contrib.ImportExport.Services {
             var blogMlBlogs = new List<Blog>();
 
             using (var memoryStream = new MemoryStream(postedFileData)) {
-                var fileInflater = new ZipInputStream(memoryStream);
-                ZipEntry entry;
-                while ((entry = fileInflater.GetNextEntry()) != null) {
-                    if (entry.IsDirectory || entry.Name.Length <= 0)
-                        continue;
+                using (var fileInflater = new ZipInputStream(memoryStream)) {
+                    ZipEntry entry;
+                    while ((entry = fileInflater.GetNextEntry()) != null) {
+                        if (entry.IsDirectory || entry.Name.Length <= 0)
+                            continue;
 
-                    if (entry.IsFile && entry.Name.EndsWith(".xml"))
-                        blogMlBlogs.Add(AssembleBlog(fileInflater, importSettings));
+                        if (entry.IsFile && entry.Name.EndsWith(".xml"))
+                            blogMlBlogs.Add(AssembleBlog(fileInflater, importSettings));
+                    }
                 }
             }
 
