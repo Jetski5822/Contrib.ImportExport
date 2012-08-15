@@ -230,6 +230,9 @@ namespace Contrib.ImportExport.Services {
             if (uriPreFormatted.Scheme == "mailto")
                 return true;
 
+            if (importSettings.OffendingHosts == null)
+                return true;
+
             return importSettings.OffendingHosts.Contains(uriPreFormatted.Host);
         }
     }
