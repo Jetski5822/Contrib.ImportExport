@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Web;
 using System.Xml.Linq;
 using Contrib.ImportExport.InternalSchema.Category;
 using Contrib.ImportExport.InternalSchema.Common;
@@ -19,7 +20,7 @@ namespace Contrib.ImportExport.Providers.Wordpress {
                 category.Description = ((XCData)categoryElement.Element(namespaces.WpNamespace + "category_description").FirstNode).Value.Trim();
             }
 
-            category.Title = ((XCData)categoryElement.Element(namespaces.WpNamespace + "cat_name").FirstNode).Value.Trim();
+            category.Title = HttpUtility.HtmlDecode(((XCData)categoryElement.Element(namespaces.WpNamespace + "cat_name").FirstNode).Value.Trim());
 
             string parentCategory = categoryElement.Element(namespaces.WpNamespace + "category_parent").Value;
             if (!string.IsNullOrWhiteSpace(parentCategory)) {
@@ -36,7 +37,7 @@ namespace Contrib.ImportExport.Providers.Wordpress {
 
             tag.Slug = tagElement.Element(namespaces.WpNamespace + "tag_slug").Value;
 
-            tag.Title = ((XCData)tagElement.Element(namespaces.WpNamespace + "tag_name").FirstNode).Value;
+            tag.Title = HttpUtility.HtmlDecode(((XCData)tagElement.Element(namespaces.WpNamespace + "tag_name").FirstNode).Value.Trim());
 
             return tag;
         }
