@@ -27,25 +27,30 @@ namespace Contrib.ImportExport.Services {
                 return value;
 
             try {
-                value = UpdateImgLocations(value, importSettings);
+                if (importSettings.FixUrlsInContentToLocal) {
+                    value = UpdateImgLocations(value, importSettings);
+                }
 
-                value = RemoveEmptyWhiteSpace(value, "span,p,b");
+                if (importSettings.CleanData) {
+                    value = RemoveEmptyWhiteSpace(value, "span,p,b");
 
-                HtmlDocument htmlDocument = new HtmlDocument();
-                htmlDocument.LoadHtml(value);
+                    HtmlDocument htmlDocument = new HtmlDocument();
+                    htmlDocument.LoadHtml(value);
 
-                RemoveComments(htmlDocument);
-                RemoveMicrosoftCrap(htmlDocument);
+                    RemoveComments(htmlDocument);
+                    RemoveMicrosoftCrap(htmlDocument);
 
-                //UpdateUrlTagLocations("title", htmlDocument, importSettings);
-                UpdateUrlTagLocations("href", htmlDocument, importSettings);
+                    if (importSettings.FixUrlsInContentToLocal) {
+                        //UpdateUrlTagLocations("title", htmlDocument, importSettings);
+                        UpdateUrlTagLocations("href", htmlDocument, importSettings);
+                    }
 
-                RemoveTags(htmlDocument, "br");
+                    RemoveTags(htmlDocument, "br");
 
-                value = htmlDocument.DocumentNode.OuterHtml;
+                    value = htmlDocument.DocumentNode.OuterHtml;
 
-                value = RemoveEmptyWhiteSpace(value, "span,p,b");
-
+                    value = RemoveEmptyWhiteSpace(value, "span,p,b");
+                }
                 return value;
             } catch (Exception exception) {
                 Console.WriteLine(exception.ToString());
@@ -53,7 +58,7 @@ namespace Contrib.ImportExport.Services {
             return value;
         }
 
-        public void RemoveComments(HtmlDocument htmlDocument) {
+        private void RemoveComments(HtmlDocument htmlDocument) {
             var nodes = htmlDocument.DocumentNode.SelectNodes("//comment()");
             if (nodes != null) {
                 foreach (HtmlNode comment in nodes) {
@@ -62,7 +67,7 @@ namespace Contrib.ImportExport.Services {
             }
         }
 
-        public void RemoveTags(HtmlDocument html, string tagName) {
+        private void RemoveTags(HtmlDocument html, string tagName) {
             var tags = html.DocumentNode.SelectNodes("//" + tagName);
             if (tags != null) {
                 foreach (var tag in tags) {

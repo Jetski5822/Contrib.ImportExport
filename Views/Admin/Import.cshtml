@@ -68,6 +68,12 @@
             <label for="Model_RecordsToProcess">@T("Records to process")</label>
             @Html.TextBoxFor(m => m.Settings.RecordsToProcess, new { @class = "textMedium" })
             <span class="hint">@T("How many blogposts would you like to process? if left at 0 or empty, default behaviour will apply.")</span>
+            
+            @Html.EditorFor(m => m.Settings.CleanData) 
+            <label class="forcheckbox" for="@Html.FieldIdFor( m => m.Settings.CleanData)">@T("You data will do through a cleaning routine. Removing empty tags, br/p/div tags, Microsoft word o: markup,etc")</label>
+            
+            @Html.EditorFor(m => m.Settings.FixUrlsInContentToLocal) 
+            <label class="forcheckbox" for="@Html.FieldIdFor( m => m.Settings.FixUrlsInContentToLocal)">@T("This will attempt to make the urls local to your media directy within your content. It will make two passes if used in conjunction with the data cleaner.")</label>
         </fieldset>
     </fieldset>
     <fieldset>

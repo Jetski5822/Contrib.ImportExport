@@ -19,5 +19,9 @@
         public int StartRecordNumber { get; set; }
 
         public int RecordsToProcess { get; set; }
+
+        public bool CleanData { get; set; }
+
+        public bool FixUrlsInContentToLocal { get; set; }
     }
 }
