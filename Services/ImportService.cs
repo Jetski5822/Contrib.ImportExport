@@ -8,7 +8,7 @@ using Contrib.ImportExport.InternalSchema;
 using Contrib.ImportExport.Models;
 using Contrib.ImportExport.Providers;
 using Contrib.ImportExport.Services.Strategies;
-using ICSharpCode.SharpZipLib.Zip;
+using Ionic.Zip;
 using JetBrains.Annotations;
 using Orchard;
 using Orchard.Localization;
@@ -123,15 +123,18 @@ namespace Contrib.ImportExport.Services {
 
             var blogMlBlogs = new List<Blog>();
 
-            using (var memoryStream = new MemoryStream(postedFileData)) {
-                using (var fileInflater = new ZipInputStream(memoryStream)) {
-                    ZipEntry entry;
-                    while ((entry = fileInflater.GetNextEntry()) != null) {
-                        if (entry.IsDirectory || entry.Name.Length <= 0)
+            using (var zipStream = new MemoryStream(postedFileData)) {
+                using (var fileInflater = ZipFile.Read(zipStream)) {
+                    foreach (ZipEntry entry in fileInflater) {
+                        if (entry == null) {
                             continue;
-
-                        if (entry.IsFile && entry.Name.EndsWith(".xml"))
-                            blogMlBlogs.Add(AssembleBlog(fileInflater, importSettings));
+                        }
+                        if (!entry.IsDirectory && !string.IsNullOrEmpty(entry.FileName) &&
+                            entry.FileName.EndsWith(".xml")) {
+                            using (var stream = entry.OpenReader()) {
+                                blogMlBlogs.Add(AssembleBlog(stream, importSettings));
+                            }
+                        }
                     }
                 }
             }
