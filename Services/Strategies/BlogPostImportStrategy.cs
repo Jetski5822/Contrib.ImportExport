@@ -82,7 +82,6 @@ namespace Contrib.ImportExport.Services.Strategies {
             ImportAdditionalContentItems(importSettings, blogPostToImport.Tags, contentItem);
 
             if (blogPostToImport.Approved) {
-                _contentManager.Flush();
                 _contentManager.Publish(contentItem);
 
                 if (blogPostToImport.DateModified.IsNotEmpty()) {

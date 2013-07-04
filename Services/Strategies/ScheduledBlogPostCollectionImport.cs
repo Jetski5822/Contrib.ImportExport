@@ -27,7 +27,6 @@ namespace Contrib.ImportExport.Services.Strategies {
             foreach (var post in posts) {
                 _blogPostImportStrategy.Import(importSettings, post, parentContentItem);
 
-                _contentManager.Flush();
                 _contentManager.Clear();
                 i++;
                 Console.WriteLine("Batch Number {0}, Imported record {1}", batchNumber, i);

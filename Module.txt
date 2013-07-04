@@ -10,4 +10,4 @@ Features:
         Name: External Import/Export
         Description: A module to allow importing and exporting from external blogging schemas.
         Category: Content
-        Dependencies: Orchard.Autoroute, Orchard.Blogs, Orchard.Comments, Orchard.Users, Contrib.Taxonomies
+        Dependencies: Orchard.Autoroute, Orchard.Blogs, Orchard.Comments, Orchard.Users, Orchard.Taxonomies

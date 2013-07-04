@@ -88,8 +88,6 @@ namespace Contrib.ImportExport.Services.Strategies {
             contentItem.As<ICommonPart>().VersionCreatedUtc = blogToImport.DateCreated;
             contentItem.As<ICommonPart>().Owner = _membershipService.GetUser(_siteService.GetSiteSettings().SuperUser);
 
-            _contentManager.Flush();
-
             _backgroundTask.Sweep();
             
             ImportAdditionalContentItems(importSettings, blogToImport.Authors, contentItem);
@@ -112,7 +110,6 @@ namespace Contrib.ImportExport.Services.Strategies {
         }
 
         private void ImportPostsInBatches(ImportSettings importSettings, IContent parentContentItem, ICollection<Post> posts) {
-            _contentManager.Flush();
             _contentManager.Clear();
             const int batchSize = 100;
             int batchNo = 1;

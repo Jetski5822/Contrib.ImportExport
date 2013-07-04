@@ -3,8 +3,8 @@ using System.Collections.Concurrent;
 using System.Linq;
 using Contrib.ImportExport.InternalSchema.Post;
 using Contrib.ImportExport.Models;
-using Contrib.Taxonomies.Models;
-using Contrib.Taxonomies.Services;
+using Orchard.Taxonomies.Models;
+using Orchard.Taxonomies.Services;
 using Orchard.ContentManagement;
 
 namespace Contrib.ImportExport.Services.Strategies {
