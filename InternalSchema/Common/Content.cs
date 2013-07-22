@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Xml.Serialization;
 
 namespace Contrib.ImportExport.InternalSchema.Common {
@@ -22,12 +23,9 @@ namespace Contrib.ImportExport.InternalSchema.Common {
 				return type;
 			}
 			set {
-				if ((!value.Equals(TypeHTML))
-				    && (!value.Equals(TypeXHTML))
-				    && (!value.Equals(TypeText))
-				    && !(value.Equals(TypeBase64))) {
-					throw new NotSupportedException("Content type " + value + " is not supported in BlogML");
-				}
+				if (!new List<string>(new[] { TypeHTML, TypeXHTML, TypeText, TypeBase64 }).Contains(value))
+                    throw new NotSupportedException(String.Format("Content type {0} is not supported in BlogML", value));
+
 				type = value;
 			}
 		}

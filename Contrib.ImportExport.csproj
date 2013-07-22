@@ -104,6 +104,7 @@
     <Compile Include="Providers\BlogML\BlogMLBlogAssembler.cs" />
     <Compile Include="Providers\IBlogAssembler.cs" />
     <Compile Include="Providers\Wordpress\Constants.cs" />
+    <Compile Include="Providers\Wordpress\Extensions.cs" />
     <Compile Include="Providers\Wordpress\InternalSchemaAssemblers.cs" />
     <Compile Include="Providers\Wordpress\WordpressBlogAssembler.cs" />
     <Compile Include="Providers\Wordpress\WordpressNamespaces.cs" />

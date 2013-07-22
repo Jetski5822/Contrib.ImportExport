@@ -10,6 +10,7 @@ using Contrib.ImportExport.InternalSchema.Common;
 using Contrib.ImportExport.InternalSchema.ExtendedProperty;
 using Contrib.ImportExport.InternalSchema.Post;
 using Contrib.ImportExport.InternalSchema.Tag;
+using Orchard.Services;
 
 namespace Contrib.ImportExport.InternalSchema {
 	/// <summary>
@@ -86,11 +87,17 @@ namespace Contrib.ImportExport.InternalSchema {
 		/// </summary>
 		public int CommentCount {
 			get {
-				IEnumerable<Post.Post> posts = from p in Posts.PostList where p.Comments != null select p;
-				
-				int count = 0;
-				foreach (Post.Post post in posts) count += post.Comments.CommentList.Count;
-				return count;
+                var posts =
+                    from p in Posts.PostList
+                    where p.Comments != null
+                    select p;
+
+                int count = 0;
+
+                foreach (var post in posts)
+                    count += post.Comments.CommentList.Count;
+
+                return count;
 			}
 		}
 		
@@ -99,11 +106,17 @@ namespace Contrib.ImportExport.InternalSchema {
 		/// </summary>
 		public int TrackbackCount {
 			get {
-				IEnumerable<Post.Post> posts = from p in Posts.PostList where p.Trackbacks != null select p;
-				
-				int count = 0;
-				foreach(Post.Post post in posts) count += post.Trackbacks.TrackbackList.Count;
-				return count;
+                var posts =
+                    from p in Posts.PostList
+                    where p.Trackbacks != null
+                    select p;
+
+                int count = 0;
+                
+                foreach (var post in posts)
+                    count += post.Trackbacks.TrackbackList.Count;
+
+                return count;
 			}
 		}
 				
@@ -111,8 +124,8 @@ namespace Contrib.ImportExport.InternalSchema {
 		/// <summary>
 		/// Create a new, empty blog representation
 		/// </summary>
-		public Blog() {
-			DateCreated = DateTime.Now;
+		public Blog(IClock clock) {
+            DateCreated = clock.UtcNow;
 			Title = new Title();
 			SubTitle = new Title();
 			Authors = new Authors();

@@ -9,9 +9,16 @@ using Contrib.ImportExport.InternalSchema.Category;
 using Contrib.ImportExport.InternalSchema.Common;
 using Contrib.ImportExport.InternalSchema.Post;
 using Contrib.ImportExport.InternalSchema.Tag;
+using Orchard.Services;
 
 namespace Contrib.ImportExport.Providers.Wordpress {
     public class WordpressBlogAssembler : IBlogAssembler {
+        private readonly IClock _clock;
+
+        public WordpressBlogAssembler(IClock clock) {
+            _clock = clock;
+        }
+
         public string Name {
             get { return "Wordpress"; }
         }
@@ -23,6 +30,9 @@ namespace Contrib.ImportExport.Providers.Wordpress {
         public Blog Assemble(Stream stream) {
             var file = XElement.Load(stream);
 
+            // Get the RSS channel.
+            XElement channel = file.Element("channel");
+
             WordpressNamespaces namespaces = new WordpressNamespaces {
                 ExcerptNamespace = file.GetNamespaceOfPrefix("excerpt"),
                 ContentNamespace = file.GetNamespaceOfPrefix("content"),
@@ -30,9 +40,6 @@ namespace Contrib.ImportExport.Providers.Wordpress {
                 DcNamespace = file.GetNamespaceOfPrefix("dc"),
                 WpNamespace = file.GetNamespaceOfPrefix("wp")
             };
-
-            // Get the RSS channel.
-            XElement channel = file.Element("channel");
 
             Blog blog = CreateTopLevelBlog(namespaces, channel);
 
@@ -44,7 +51,7 @@ namespace Contrib.ImportExport.Providers.Wordpress {
         }
 
         private Blog CreateTopLevelBlog(WordpressNamespaces namespaces, XElement channel) {
-            Blog blog = new Blog();
+            Blog blog = new Blog(_clock);
 
             blog.DateCreated = DateTime.Parse(Constants.ParseRssDate(channel.Element("pubDate").Value));
 			
@@ -54,8 +61,16 @@ namespace Contrib.ImportExport.Providers.Wordpress {
             blog.SubTitle = new Title();
             blog.SubTitle.Value = channel.Element("description").Value;
 
-            blog.RootURL = channel.Element(namespaces.WpNamespace + "base_blog_url").Value;
-			
+
+            // This is the first element we use the WP namespace; make sure it works.
+            // (See issue #4 - thanks to stephenway for reporting it.)
+            var rootUrlElement = channel.WordpressElement(namespaces, "base_blog_url");
+
+            if (rootUrlElement == null)
+                throw new NotSupportedException("Unable to determine the blog base URL.");
+
+            blog.RootURL = rootUrlElement.Value;
+
             blog.Authors = new Authors();
             blog.Categories = new Categories();
             blog.Tags = new Tags();
@@ -132,7 +147,7 @@ namespace Contrib.ImportExport.Providers.Wordpress {
 
             IEnumerable<XElement> posts =
                 from item in channel.Elements("item")
-                where item.Element(namespaces.WpNamespace + "status").Value == "publish"
+                where item.WordpressElement(namespaces, "status").Value == "publish"
                 select item;
 
             // NGM Might want update urls within content to stop redirects?

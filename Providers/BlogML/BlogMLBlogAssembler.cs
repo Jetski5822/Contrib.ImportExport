@@ -10,14 +10,18 @@ using Contrib.ImportExport.InternalSchema.Tag;
 using JetBrains.Annotations;
 using Orchard;
 using Orchard.Localization;
+using Orchard.Services;
 using Orchard.UI.Notify;
 
 namespace Contrib.ImportExport.Providers.BlogML {
     public class BlogMLBlogAssembler : IBlogAssembler {
         private readonly IOrchardServices _orchardServices;
+        private readonly IClock _clock;
 
-        public BlogMLBlogAssembler(IOrchardServices orchardServices) {
+        public BlogMLBlogAssembler(IOrchardServices orchardServices,
+            IClock clock) {
             _orchardServices = orchardServices;
+            _clock = clock;
             T = NullLocalizer.Instance;
         }
 
@@ -154,7 +158,7 @@ namespace Contrib.ImportExport.Providers.BlogML {
         }
 
         private Blog CreateTopLevelBlog(BlogMLBlog blogMLBlog) {
-            Blog blog = new Blog();
+            Blog blog = new Blog(_clock);
 
             blog.DateCreated = blogMLBlog.DateCreated;
 

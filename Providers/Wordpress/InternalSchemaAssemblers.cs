@@ -12,32 +12,34 @@ using Contrib.ImportExport.InternalSchema.Tag;
 namespace Contrib.ImportExport.Providers.Wordpress {
     internal static class InternalSchemaAssemblers {
         internal static Category AssembleCategory(WordpressNamespaces namespaces, XElement categoryElement) {
-            Category category = new Category();
+            var category = new Category();
 
-            category.ID = categoryElement.Element(namespaces.WpNamespace + "category_nicename").Value.Trim();
+            category.ID =
+                categoryElement.WordpressElement(namespaces, "category_nicename", (e) => e.Value.Trim());
 
-            if (categoryElement.Elements(namespaces.WpNamespace + "category_description").Any()) {
-                category.Description = ((XCData)categoryElement.Element(namespaces.WpNamespace + "category_description").FirstNode).Value.Trim();
-            }
+            category.Description = 
+                categoryElement.WordpressElement(namespaces, "category_description", (e) =>((XCData)e.FirstNode).Value.Trim());
 
-            category.Title = HttpUtility.HtmlDecode(((XCData)categoryElement.Element(namespaces.WpNamespace + "cat_name").FirstNode).Value.Trim());
+            category.Title =
+                categoryElement.HtmlWordpressElement(namespaces, "cat_name");
 
-            string parentCategory = categoryElement.Element(namespaces.WpNamespace + "category_parent").Value;
-            if (!string.IsNullOrWhiteSpace(parentCategory)) {
-                category.ParentCategory = parentCategory.Trim();
-            }
+            category.ParentCategory = 
+                categoryElement.WordpressElement(namespaces, "category_parent", (e) => e.Value.Trim());
 
             return category;
         }
 
         internal static Tag AssembleTag(WordpressNamespaces namespaces, XElement tagElement) {
-            Tag tag = new Tag();
+            var tag = new Tag();
 
-            tag.ID = tagElement.Element(namespaces.WpNamespace + "tag_slug").Value;
+            tag.ID =
+                tagElement.WordpressElement(namespaces, "tag_slug", (e) => e.Value.Trim());
 
-            tag.Slug = tagElement.Element(namespaces.WpNamespace + "tag_slug").Value;
+            tag.Slug =
+                tagElement.WordpressElement(namespaces, "tag_slug", (e) => e.Value.Trim());
 
-            tag.Title = HttpUtility.HtmlDecode(((XCData)tagElement.Element(namespaces.WpNamespace + "tag_name").FirstNode).Value.Trim());
+            tag.Title = 
+                tagElement.HtmlWordpressElement(namespaces, "tag_name");
 
             return tag;
         }
@@ -46,7 +48,7 @@ namespace Contrib.ImportExport.Providers.Wordpress {
 			Post post = new Post();
 
 			// Node (parent) properties.
-            post.ID = postElement.Element(namespaces.WpNamespace + "post_id").Value;
+            post.ID = postElement.WordpressElement(namespaces, "post_id").Value;
             post.Title = postElement.Element("title").Value;
             post.DateCreated = DateTime.Parse(Constants.ParseRssDate(postElement.Element("pubDate").Value));
             post.DateModified = DateTime.Parse(Constants.ParseRssDate(postElement.Element("pubDate").Value));
@@ -56,7 +58,7 @@ namespace Contrib.ImportExport.Providers.Wordpress {
 			// Object properties.
             post.Content = new Content();
             post.Content.Type = Content.TypeHTML;
-            post.Content.Value = ((XCData)postElement.Element(namespaces.ContentNamespace + "encoded").FirstNode).Value;
+            post.Content.Value = ((XCData)postElement.ContentElement(namespaces, "encoded").FirstNode).Value;
 
             post.PostName = new Title();
             post.PostName.Type = Content.TypeHTML;
@@ -100,10 +102,10 @@ namespace Contrib.ImportExport.Providers.Wordpress {
             }
 			
 			// Comments on this post.
-			IEnumerable<XElement> comments =
+            IEnumerable<XElement> comments =
                 from comment in postElement.Elements(namespaces.WpNamespace + "comment")
-                where comment.Element(namespaces.WpNamespace + "comment_approved").Value == "1"
-                    && comment.Element(namespaces.WpNamespace + "comment_type").Value == String.Empty
+                where comment.WordpressElement(namespaces, "comment_approved").Value == "1"
+                      && string.IsNullOrEmpty(comment.WordpressElement(namespaces, "comment_type").Value)
 				select comment;
 
             post.Comments = new Comments();
@@ -114,7 +116,7 @@ namespace Contrib.ImportExport.Providers.Wordpress {
 				}
 			}
 
-            if (postElement.Element(namespaces.WpNamespace + "comment_status").Value == "open")
+            if (postElement.WordpressElement(namespaces, "comment_status").Value == "open")
                 post.Comments.Enabled = true;
             else {
                 post.Comments.Enabled = false;
@@ -123,9 +125,9 @@ namespace Contrib.ImportExport.Providers.Wordpress {
 			// Trackbacks for this post.
 			IEnumerable<XElement> trackbax =
 				from tb in postElement.Elements(namespaces.WpNamespace + "comment")
-				where tb.Element(namespaces.WpNamespace + "comment_approved").Value == "1"
-					&& ((tb.Element(namespaces.WpNamespace + "comment_type").Value == "trackback")
-					    || (tb.Element(namespaces.WpNamespace + "comment_type").Value == "pingback"))
+				where tb.WordpressElement(namespaces, "comment_approved").Value == "1"
+					&& ((tb.WordpressElement(namespaces, "comment_type").Value == "trackback")
+					    || (tb.WordpressElement(namespaces, "comment_type").Value == "pingback"))
 				select tb;
 			
 			if (trackbax.Any()) {
@@ -154,29 +156,30 @@ namespace Contrib.ImportExport.Providers.Wordpress {
             Comment comment = new Comment();
 
             // Node (parent) properties.
-            comment.ID = commentElement.Element(namespaces.WpNamespace + "comment_id").Value;
+            comment.ID = commentElement.WordpressElement(namespaces, "comment_id").Value;
             comment.Title = comment.ID;
-            comment.DateCreated = DateTime.Parse(commentElement.Element(namespaces.WpNamespace + "comment_date_gmt").Value);
+            comment.DateCreated = DateTime.Parse(commentElement.WordpressElement(namespaces, "comment_date_gmt").Value);
 
             comment.Content = new Content();
             comment.Content.Type = Content.TypeHTML;
-            comment.Content.Value = ((XCData)commentElement.Element(namespaces.WpNamespace + "comment_content").FirstNode).Value;
+            comment.Content.Value = ((XCData)commentElement.WordpressElement(namespaces, "comment_content").FirstNode).Value;
 
-            comment.UserName = ((XCData)commentElement.Element(namespaces.WpNamespace + "comment_author").FirstNode).Value;
+            comment.UserName = ((XCData)commentElement.WordpressElement(namespaces, "comment_author").FirstNode).Value;
 
-            string email = commentElement.Element(namespaces.WpNamespace + "comment_author_email").Value;
-            if (String.Empty != email) {
+            string email = commentElement.WordpressElement(namespaces, "comment_author_email").Value;
+            if (!string.IsNullOrWhiteSpace(email)) {
                 comment.UserEmail = email;
             }
 
-            string url = commentElement.Element(namespaces.WpNamespace + "comment_author_url").Value;
-            if (String.Empty != url) {
+            string url = commentElement.WordpressElement(namespaces, "comment_author_url").Value;
+            if (!string.IsNullOrWhiteSpace(url)) {
                 comment.UserURL = url;
             }
 
-            string approved = commentElement.Element(namespaces.WpNamespace + "comment_approved").Value;
-
-            comment.Approved = approved == "1";
+            string approved = commentElement.WordpressElement(namespaces, "comment_approved").Value;
+            if (!string.IsNullOrWhiteSpace(approved)) {
+                comment.Approved = approved == "1";
+            }
 
             return comment;
         }
@@ -184,12 +187,12 @@ namespace Contrib.ImportExport.Providers.Wordpress {
         internal static Trackback AssembleTrackback(WordpressNamespaces namespaces, XElement trackbackElement) {
             Trackback trackback = new Trackback();
 
-            trackback.ID = trackbackElement.Element(namespaces.WpNamespace + "comment_id").Value;
-            trackback.Title = ((XCData)trackbackElement.Element(namespaces.WpNamespace + "comment_author").FirstNode).Value;
+            trackback.ID = trackbackElement.WordpressElement(namespaces, "comment_id").Value;
+            trackback.Title = ((XCData)trackbackElement.WordpressElement(namespaces, "comment_author").FirstNode).Value;
             trackback.DateCreated =
-                DateTime.Parse(trackbackElement.Element(namespaces.WpNamespace + "comment_date_gmt").Value);
+                DateTime.Parse(trackbackElement.WordpressElement(namespaces, "comment_date_gmt").Value);
 
-            trackback.Url = trackbackElement.Element(namespaces.WpNamespace + "comment_author_url").Value;
+            trackback.Url = trackbackElement.WordpressElement(namespaces, "comment_author_url").Value;
 
             return trackback;
         }
