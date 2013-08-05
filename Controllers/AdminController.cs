@@ -54,6 +54,9 @@ namespace Contrib.ImportExport.Controllers {
 
             TryUpdateModel(viewModel.Settings);
 
+            if (string.IsNullOrWhiteSpace(viewModel.Settings.SelectedSchema))
+                ModelState.AddModelError("SelectedSchema", "You must select a schema");
+
             if (ModelState.IsValid) {
                 if (!string.IsNullOrWhiteSpace(viewModel.Settings.UrlItemPath)) {
                     if (viewModel.Settings.UrlItemPath.IsValidUrl())

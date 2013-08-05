@@ -2,85 +2,135 @@
 @using Orchard.Mvc.Html
 @model Contrib.ImportExport.ViewModels.ImportAdminViewModel
 
+@{
+    Script.Require("jQuery");
+}
+
 <h1>@Html.TitleForPage(T("Import A Blog").ToString())</h1>
-<p>@T("Choose a file to upload, then click upload and import.")</p>
-<p>@T("For any blog and blog post imported, the system can take up to five minute to perform a refresh of its slugs. Files being uploaded that are larger than 4mb may require modifications to the web.config.")</p>
 
 @using(Html.BeginForm("Import", "Admin", FormMethod.Post, new { area = "Contrib.ImportExport", enctype = "multipart/form-data" })) { 
     @Html.ValidationSummary() 
-    <fieldset>
-		
-        <fieldset>
-            <legend>File Location</legend>
-            <label for="MediaItemPath">@T("Local File Path <span> - multiple files must be in a zipped folder</span>")</label>
-		    <input id="MediaItemPath" name="MediaItemPath" type="file" value="@T("Browse")" size="64"/>
-            <span class="hint">@T("File can be either a valid BlogML xml file or a zip file that contains a valid BlogML xml file.")</span>
 
+    <div>
+        <h2>@T("Step 1: Blog Format")</h2>
+        <p>@T("First things first... What type of Blog format are you attempting to import?")</p>
+
+        <div>    
+            <label for="importSchema">@T("Blog Format")</label>
+            @T("<select id=\"importSchema\" name=\"SelectedSchema\">")
+            @Html.SelectOption(string.Empty, true, T("Choose format...").ToString())
+            @foreach (var item in Model.SupportedSchemas) {
+                @Html.SelectOption(item, false, T(item).ToString())
+            }
+            @T("</select>")
+        </div>
+    </div>
+    
+    <div>
+        <h2>@T("Step 2: File Location")</h2>
+        
+        <p>@T("Next we need to identify where you are going to grab the file from. Large files may have upload restrictions, normally of about 4mb, so it those cases it is easier to upload the file using an FTP client and then reference the file as a URL.")</p>
+        
+        <div>
+            <label for="MediaItemPath">@T("Local File Path <span> - multiple files must be in a zipped folder</span>")</label>
+            <input id="MediaItemPath" name="MediaItemPath" type="file" value="@T("Browse")" size="64"/>
+            <span class="hint">@T("File can be either a valid xml file or a zip file that contains a valid xml file.")</span>
+        </div>
+        <p>@T("OR")</p>
+        
+        <div>
             <label for="Model_URLItemPath">@T("URL File Path")</label>
             @Html.TextBoxFor(m => m.Settings.UrlItemPath, new { @class = "textMedium" })
-            
-            <label for="importSchema">@T("Select a schema.")</label>
-                @T("<select id=\"importSchema\" name=\"SelectedSchema\">")
-                @Html.SelectOption(0, true, T("Choose schema...").ToString())
-                @foreach (var item in Model.SupportedSchemas) {
-                    @Html.SelectOption(item, false, T(item).ToString())
+        </div>
+    </div>
+
+    <div>
+        <h2>@T("Advanced Settings")</h2>
+        <fieldset>
+            <legend>@T("Overrides")</legend>
+            <div class="expando">
+                @if (Model.Blogs != null && Model.Blogs.Any()) {
+                    <div>
+                        <label for="importActions">@T("Select an existing blog to import import your file into.")</label>
+                        @T("<select id=\"importActions\" name=\"BlogIdToImportInto\">")
+                        @Html.SelectOption(0, true, T("Choose action...").ToString())
+                        @foreach (var item in Model.Blogs) {
+                        @Html.SelectOption(item.Key, false, T(item.Value).ToString())
+                        }
+                        @T("</select>")
+                        <span class="hint">@T("This behaviour will override the default behaviour of creating a new blog.")</span>
+                    </div>
                 }
-                @T("</select>")
+                <div>
+                    <label for="Model_Override">@T("Override matching posts")</label>
+                    <select id="override" name="Settings.Override">
+                        @Html.SelectOption("true", Model.Settings.Override, "True")
+                        @Html.SelectOption("false", !Model.Settings.Override, "False")
+                    </select>
+                    <span class="hint">@T("This behaviour will override a blog post if the url matches.")</span>
+                </div>
+                <div>
+                    <label for="Model_SlugPattern">@T("SlugPattern")</label>
+                    @Html.TextBoxFor(m => m.Settings.SlugPattern, new { @class = "textMedium" })
+                    <span class="hint">@T(@"For example: /([^/]+)\.aspx for aspx pages - Make blank if you want the post-url attribute to be used as is.")</span>
+                    <p>@T("A Slug is the title of your individual articles or pages. Sometimes this can be proceeded by *.aspx or *.php depending on how BlogML has been implemented at the time of export. You can define the slug pattern above which will help to identify individual articles/pages.")</p>
+                </div>
+                <div>
+                    <label for="Model_DefaultBlogSlug">@T("Default Blog Slug")</label>
+                    @Html.TextBoxFor(m => m.Settings.DefaultBlogSlug, new { @class = "textMedium" })
+                    <span class="hint">@T("This behaviour will override the default behaviour of building the Blog Slug from the Title.")</span>
+                </div>
+            </div>
         </fieldset>
 
         <fieldset>
-        <legend>Additional Import Settings</legend>
-            @if (Model.Blogs != null && Model.Blogs.Any()) {
-                <label for="importActions">@T("Select an existing blog to import import your file into.")</label>
-                @T("<select id=\"importActions\" name=\"BlogIdToImportInto\">")
-                @Html.SelectOption(0, true, T("Choose action...").ToString())
-                foreach (var item in Model.Blogs) {
-                    @Html.SelectOption(item.Key, false, T(item.Value).ToString())
-                }
-                @T("</select>")
-                <span class="hint">@T("This behaviour will override the default behaviour of creating a new blog.")</span>
-            }
-
-            <label for="Model_SlugPattern">@T("SlugPattern")</label>
-		    @Html.TextBoxFor(m => m.Settings.SlugPattern, new { @class = "textMedium" })
-            <span class="hint">@T(@"For example: /([^/]+)\.aspx for aspx pages - Make blank if you want the post-url attribute to be used as is.")</span>
-            <p>@T("A Slug is the title of your individual articles or pages. Sometimes this can be proceeded by *.aspx or *.php depending on how BlogML has been implemented at the time of export. You can define the slug pattern above which will help to identify individual articles/pages.")</p>
-
-            <label for="Model_DefaultBlogSlug">@T("Default Blog Slug")</label>
-            @Html.TextBoxFor(m => m.Settings.DefaultBlogSlug, new { @class = "textMedium" })
-            <span class="hint">@T("This behaviour will override the default behaviour of building the Blog Slug from the Title.")</span>
-            
-            <label for="Model_OffendingHosts">@T("Offending Hosts")</label>
-            @Html.TextBoxFor(m => m.Settings.OffendingHosts, new { @class = "textMedium" })
-            <span class="hint">@T("This behaviour will turn all hosts in to relative paths, i.e. www.foobar.com to a relative path (this is a comma delimited string).")</span>
-            
-            <label for="Model_Override">@T("Override matching posts")</label>
-            <select id="override" name="Settings.Override">
-                @Html.SelectOption("true", Model.Settings.Override, "True")
-                @Html.SelectOption("false", !Model.Settings.Override, "False")
-            </select>
-            <span class="hint">@T("This behaviour will override a blog post if the url matches.")</span>
-            
-            <label for="Model_StartRecordNumber">@T("Start Record Number")</label>
-            @Html.TextBoxFor(m => m.Settings.StartRecordNumber, new { @class = "textMedium" })
-            <span class="hint">@T("This behaviour will start the import of posts from a particular location within the file.. i.e. post number 7.")</span>
-
-            <label for="Model_RecordsToProcess">@T("Records to process")</label>
-            @Html.TextBoxFor(m => m.Settings.RecordsToProcess, new { @class = "textMedium" })
-            <span class="hint">@T("How many blogposts would you like to process? if left at 0 or empty, default behaviour will apply.")</span>
-        
-                
-            @Html.EditorFor(m => m.Settings.CleanData) 
-            <label class="forcheckbox" for="@Html.FieldIdFor( m => m.Settings.CleanData)">@T("Clean Markup")</label>
-            <span class="hint">@T("You data will do through a cleaning routine. Removing empty tags, br/p/div tags, Microsoft word o: markup, etc.")</span>
-
-            @Html.EditorFor(m => m.Settings.FixUrlsInContentToLocal) 
-            <label class="forcheckbox" for="@Html.FieldIdFor( m => m.Settings.FixUrlsInContentToLocal)">@T("Fix Content Urls")</label>
-            <span class="hint">@T("This will attempt to make the urls local to your media directy within your content. It will make two passes if used in conjunction with the data cleaner.")</span>
+            <legend>@T("Batching")</legend>
+            <div class="expando">
+                <div>        
+                    <label for="Model_StartRecordNumber">@T("Start Record Number")</label>
+                    @Html.TextBoxFor(m => m.Settings.StartRecordNumber, new { @class = "textMedium" })
+                    <span class="hint">@T("This behaviour will start the import of posts from a particular location within the file.. i.e. post number 7.")</span>
+                </div>
+                <div>
+                    <label for="Model_RecordsToProcess">@T("Records to process")</label>
+                    @Html.TextBoxFor(m => m.Settings.RecordsToProcess, new { @class = "textMedium" })
+                    <span class="hint">@T("How many blogposts would you like to process? if left at 0 or empty, default behaviour will apply.")</span>
+                </div>
+            </div>
         </fieldset>
-    </fieldset>
+        
+        <fieldset>
+            <legend>@T("Data Cleansing")</legend>
+            <div class="expando">
+                <div>
+                    <label for="Model_OffendingHosts">@T("Offending Hosts")</label>
+                    @Html.TextBoxFor(m => m.Settings.OffendingHosts, new { @class = "textMedium" })
+                    <span class="hint">@T("This behaviour will turn all hosts in to relative paths, i.e. www.foobar.com to a relative path (this is a comma delimited string).")</span>
+                </div>
+                <div>
+                    @Html.EditorFor(m => m.Settings.CleanData) 
+                    <label class="forcheckbox" for="@Html.FieldIdFor( m => m.Settings.CleanData)">@T("Clean Markup")</label>
+                    <span class="hint">@T("You data will do through a cleaning routine. Removing empty tags, br/p/div tags, Microsoft word o: markup, etc.")</span>
+                </div>
+                <div>
+                    @Html.EditorFor(m => m.Settings.FixUrlsInContentToLocal) 
+                    <label class="forcheckbox" for="@Html.FieldIdFor( m => m.Settings.FixUrlsInContentToLocal)">@T("Fix Content Urls")</label>
+                    <span class="hint">@T("This will attempt to make the urls local to your media directy within your content. It will make two passes if used in conjunction with the data cleaner.")</span>
+                </div>
+            </div>
+        </fieldset>
+    </div>
     <fieldset>
 		<input type="submit" class="button" value="@T("Upload file and Import")" />
 		@Html.AntiForgeryTokenOrchard()
 	</fieldset>
+}
+
+@using (Script.Foot()) {
+<script type="text/javascript">
+//<![CDATA[
+    (function ($) {
+        $("fieldset legend").expandoControl(function (controller) { return controller.nextAll(".expando"); }, { collapse: true, remember: false });
+    })(jQuery);//]]>
+</script>
 }
