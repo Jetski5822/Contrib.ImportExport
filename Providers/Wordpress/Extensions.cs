@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Web;
 using System.Xml.Linq;
 
@@ -39,7 +37,7 @@ namespace Contrib.ImportExport.Providers.Wordpress {
         }
 
         internal static XElement ContentElement(this XElement element, WordpressNamespaces namespaces, string name) {
-            return element.ContentElement(namespaces, name);
+            return element.Element(namespaces.ContentNamespace + name);
         }
     }
 }
