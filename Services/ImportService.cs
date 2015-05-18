@@ -9,7 +9,6 @@ using Contrib.ImportExport.Models;
 using Contrib.ImportExport.Providers;
 using Contrib.ImportExport.Services.Strategies;
 using Ionic.Zip;
-using JetBrains.Annotations;
 using Orchard;
 using Orchard.Localization;
 using Orchard.Settings;
@@ -36,7 +35,7 @@ namespace Contrib.ImportExport.Services {
             T = NullLocalizer.Instance;
         }
 
-        protected virtual ISite CurrentSite { get; [UsedImplicitly] private set; }
+        protected virtual ISite CurrentSite { get; private set; }
         public Localizer T { get; set; }
 
         #region IImportService Members

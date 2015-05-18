@@ -2,8 +2,8 @@
 AntiForgery: enabled
 Author: Nicholas Mayne
 Website: https://github.com/Jetski5822/Contrib.ImportExport
-Version: 1.0.0
-OrchardVersion: 1.7.0
+Version: 1.5.0
+OrchardVersion: 1.9.0
 Description: A module to allow importing and exporting from external blogging formats.
 Features:
     Contrib.ImportExport:

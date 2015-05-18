@@ -7,7 +7,6 @@ using Contrib.ImportExport.InternalSchema.Category;
 using Contrib.ImportExport.InternalSchema.Common;
 using Contrib.ImportExport.InternalSchema.Post;
 using Contrib.ImportExport.InternalSchema.Tag;
-using JetBrains.Annotations;
 using Orchard;
 using Orchard.Localization;
 using Orchard.Services;
@@ -178,7 +177,6 @@ namespace Contrib.ImportExport.Providers.BlogML {
             return blog;
         }
 
-        [CanBeNull]
         private BlogMLBlog DeserializeBlogMlByStream(Stream stream) {
             try {
                 return BlogMLSerializer.Deserialize(stream);
